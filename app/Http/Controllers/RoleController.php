@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
+use App\DTOs\Role\RoleDTO;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use App\Models\Role;
+use App\Services\RoleService;
+use Inertia\Inertia;
 
 class RoleController extends Controller
 {
+    public function __construct(private readonly RoleService $service) {}
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): \Inertia\Response
     {
-        //
+        $roles = $this->service->getRolesPaginated(50);
+
+        return Inertia::render('Management/Roles/Index', compact('roles'));
     }
 
     /**
@@ -29,7 +36,12 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        //
+        $dto = RoleDTO::fromRequest($request->validated());
+
+        $this->service->createRole($dto);
+
+        return to_route('perfis.index')->with('success', 'Role created successfully.');
+
     }
 
     /**

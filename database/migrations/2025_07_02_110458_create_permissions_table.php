@@ -33,7 +33,7 @@ return new class extends Migration
             ['slug' => 'manage-permission'],
 
             // Assignments
-            ['slug'=> 'assign-roles'],
+            ['slug' => 'assign-roles'],
             ['slug' => 'assign-permission'],
 
             // Users

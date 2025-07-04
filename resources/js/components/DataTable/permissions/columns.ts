@@ -1,9 +1,9 @@
+import DataTableDropdown from '@/components/DataTable/permissions/DataTableDropdown.vue';
 import { Button } from '@/components/ui/button';
 import { Permission } from '@/types';
 import type { ColumnDef } from '@tanstack/vue-table';
 import { ArrowUpDown } from 'lucide-vue-next';
 import { h } from 'vue';
-import DataTableDropdown from './DataTableDropdown.vue';
 
 export const permissionColumns: ColumnDef<Permission>[] = [
     {

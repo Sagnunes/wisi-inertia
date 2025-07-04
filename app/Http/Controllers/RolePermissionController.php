@@ -10,9 +10,7 @@ use Inertia\Inertia;
 
 class RolePermissionController extends Controller
 {
-    public function __construct(private readonly RolePermissionService $service)
-    {
-    }
+    public function __construct(private readonly RolePermissionService $service) {}
 
     public function edit(Role $role)
     {

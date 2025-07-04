@@ -3,6 +3,8 @@
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolePermissionController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserRoleController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -20,6 +22,10 @@ Route::middleware(['auth', 'verified'])->prefix('administracao')->group(function
 
     Route::get('perfis/{role}/permissoes', [RolePermissionController::class, 'edit'])->name('roles.permissions.edit');
     Route::patch('perfis/{role}/permissoes', [RolePermissionController::class, 'update'])->name('roles.permissions.update');
+
+    Route::get('utilizadores', [UserController::class, 'index'])->name('users.index');
+    Route::get('utilizadores/{user}/perfil', [UserRoleController::class, 'edit'])->name('user.roles.edit');
+    Route::patch('utlizadores/{user}/perfil', [UserRoleController::class, 'update'])->name('user.roles.update');
 });
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

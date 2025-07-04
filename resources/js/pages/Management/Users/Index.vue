@@ -1,0 +1,53 @@
+<script setup lang="ts">
+import DataTable from '@/components/DataTable/DataTable.vue';
+import { userColumns } from '@/components/DataTable/users/columns';
+import HeadingSmall from '@/components/HeadingSmall.vue';
+import Pagination from '@/components/Pagination.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { type BreadcrumbItem, User } from '@/types';
+import { Head, router } from '@inertiajs/vue3';
+import { PropType } from 'vue';
+
+defineProps({
+    users: {
+        type: Object as PropType<User[]>,
+        required: true,
+    },
+});
+
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Perfis',
+        href: '/administracao/perfis',
+    },
+];
+
+const goToPage = (page: number) => {
+    router.get(
+        route('roles.index'),
+        { page },
+        {
+            preserveScroll: true,
+            preserveState: true,
+            replace: true,
+            only: ['users'],
+        },
+    );
+};
+</script>
+
+<template>
+    <Head title="Dashboard" />
+    {{ users }}
+    <AppLayout :breadcrumbs="breadcrumbs">
+        <div class="flex flex-col space-y-6 px-4 py-6">
+            <div class="flex flex-row items-end justify-between gap-4">
+                <HeadingSmall title="Perfis" description="Gerir os perfis do sistema" />
+            </div>
+            <div class="flex h-full flex-1 flex-col gap-4 rounded-xl">
+                <DataTable :columns="userColumns" :data="users" />
+                <Pagination :pagination="users" @page-change="goToPage" />
+            </div>
+        </div>
+    </AppLayout>
+</template>

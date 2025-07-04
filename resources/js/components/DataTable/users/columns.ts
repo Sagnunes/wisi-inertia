@@ -1,12 +1,12 @@
-import DataTableDropdown from '@/components/DataTable/roles/DataTableDropdown.vue';
+import DataTableDropdown from '@/components/DataTable/users/DataTableDropdown.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Role } from '@/types';
+import { Role, User } from '@/types';
 import type { ColumnDef } from '@tanstack/vue-table';
 import { ArrowUpDown } from 'lucide-vue-next';
 import { h } from 'vue';
 
-export const roleColumns: ColumnDef<Role>[] = [
+export const userColumns: ColumnDef<User>[] = [
     {
         accessorKey: 'name',
         header: ({ column }) => {
@@ -26,13 +26,13 @@ export const roleColumns: ColumnDef<Role>[] = [
         isDefaultFilter: true,
     },
     {
-        accessorKey: 'description',
+        accessorKey: 'email',
         header: () => h('span', { class: 'block' }, 'Descrição'),
-        cell: ({ row }) => h('span', { class: 'block' }, row.original.description),
+        cell: ({ row }) => h('span', { class: 'block' }, row.original.email),
     },
     {
         accessorKey: 'permissions',
-        header: () => h('span', { class: 'block' }, 'Permissões'),
+        header: () => h('span', { class: 'block' }, 'Perfis Atribuidos'),
         cell: ({ row }) =>
             h(
                 'div',
@@ -40,14 +40,14 @@ export const roleColumns: ColumnDef<Role>[] = [
                     class: 'flex flex-wrap gap-2 justify-start items-center',
                     style: { width: '700px' },
                 },
-                row.original.permissions?.map((permission) =>
+                row.original.roles?.map((role: Role) =>
                     h(
                         Badge,
                         {
                             class: 'text-xs',
-                            key: permission.id,
+                            key: role.id,
                         },
-                        () => permission.name,
+                        () => role.name,
                     ),
                 ),
             ),
@@ -56,6 +56,6 @@ export const roleColumns: ColumnDef<Role>[] = [
         id: 'actions',
         header: '',
         enableHiding: false,
-        cell: ({ row }) => h(DataTableDropdown, { role: row.original }),
+        cell: ({ row }) => h(DataTableDropdown, { user: row.original }),
     },
 ];

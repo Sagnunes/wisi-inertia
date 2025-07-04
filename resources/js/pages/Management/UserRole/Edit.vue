@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Combobox, ComboboxAnchor, ComboboxEmpty, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList } from '@/components/ui/combobox';
 import { TagsInput, TagsInputInput, TagsInputItem, TagsInputItemDelete, TagsInputItemText } from '@/components/ui/tags-input';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem, Permission, Role } from '@/types';
+import { type BreadcrumbItem, Role, User } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { computed, PropType, ref } from 'vue';
 const breadcrumbs: BreadcrumbItem[] = [
@@ -20,36 +20,36 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const props = defineProps({
-    permissions: {
-        type: Array as PropType<Permission[]>,
+    roles: {
+        type: Array as PropType<Role[]>,
         required: true,
     },
-    role: {
-        type: Object as PropType<Role>,
+    user: {
+        type: Object as PropType<User>,
         required: true,
     },
 });
 
 const form = useForm({
-    permissions: [],
+    roles: [],
 });
-const modelValue = ref<Permission[]>(props.role.permissions ?? []);
+const modelValue = ref<Role[]>(props.user.roles ?? []);
 
 const open = ref(false);
 const searchTerm = ref('');
 
 // Filter permissions: exclude already-selected, filter by name
-const filteredPermissions = computed(() => {
-    return props.permissions
-        .filter((perm) => !modelValue.value.some((item) => item.id === perm.id))
-        .filter((perm) => !searchTerm.value || perm.name.toLowerCase().includes(searchTerm.value.toLowerCase()));
+const filteredRoles = computed(() => {
+    return props.roles
+        .filter((role) => !modelValue.value.some((item) => item.id === role.id))
+        .filter((role) => !searchTerm.value || role.name.toLowerCase().includes(searchTerm.value.toLowerCase()));
 });
 
 const selectedIds = computed(() => modelValue.value.map((item) => item.id));
 
 const submit = () => {
-    form.permissions = selectedIds.value;
-    form.patch(route('roles.permissions.update', props.role), {
+    form.roles = selectedIds.value;
+    form.patch(route('user.roles.update', props.user), {
         preserveScroll: true,
     });
 };
@@ -78,30 +78,30 @@ const submit = () => {
                                 </div>
                                 <ComboboxInput v-model="searchTerm" as-child>
                                     <TagsInputInput
-                                        placeholder="Permissões..."
+                                        placeholder="Perfis..."
                                         class="h-auto w-full min-w-[200px] border-none p-0 focus-visible:ring-0"
                                         @keydown.enter.prevent
                                     />
                                 </ComboboxInput>
                             </TagsInput>
                             <ComboboxList class="w-full">
-                                <ComboboxEmpty>No permissions found</ComboboxEmpty>
+                                <ComboboxEmpty>Nenhum perfil encontrado</ComboboxEmpty>
                                 <ComboboxGroup>
                                     <ComboboxItem
-                                        v-for="perm in filteredPermissions"
-                                        :key="perm.id"
-                                        :value="perm"
+                                        v-for="role in filteredRoles"
+                                        :key="role.id"
+                                        :value="role"
                                         @select.prevent="
                                             () => {
-                                                if (!modelValue.some((item) => item.id === perm.id)) {
-                                                    modelValue.push(perm);
+                                                if (!modelValue.some((item) => item.id === role.id)) {
+                                                    modelValue.push(role);
                                                     searchTerm = '';
                                                 }
-                                                if (filteredPermissions.length === 0) open = false;
+                                                if (filteredRoles.length === 0) open = false;
                                             }
                                         "
                                     >
-                                        {{ perm.name }}
+                                        {{ role.name }}
                                     </ComboboxItem>
                                 </ComboboxGroup>
                             </ComboboxList>
@@ -109,7 +109,7 @@ const submit = () => {
                     </Combobox>
 
                     <!-- Error message and submit button below -->
-                    <InputError class="mt-2" :message="form.errors.permissions" />
+                    <InputError class="mt-2" :message="form.errors.roles" />
                     <Button :disabled="form.processing">Guardar</Button>
 
                     <Transition

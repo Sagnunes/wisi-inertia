@@ -13,9 +13,7 @@ use Inertia\Response;
 
 class RoleController extends Controller
 {
-    public function __construct(private readonly RoleService $service)
-    {
-    }
+    public function __construct(private readonly RoleService $service) {}
 
     /**
      * Display a listing of the resource.
@@ -23,6 +21,7 @@ class RoleController extends Controller
     public function index(): Response
     {
         $roles = $this->service->getAllRolesWithPermissions(50);
+
         return Inertia::render('Management/Roles/Index', compact('roles'));
     }
 

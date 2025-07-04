@@ -26,7 +26,7 @@ class EloquentPermissionRepository implements PermissionRepositoryInterface
 
     private function baseQuery(): Builder
     {
-        ;
+
         return $this->model->query()->select(self::PERMISSION_LIST_COLUMNS)->orderBy('name');
     }
 

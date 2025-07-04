@@ -60,4 +60,9 @@ class EloquentRoleRepository implements RoleRepositoryInterface
     {
         return $role->delete();
     }
+
+    public function paginateWithPermissions(int $perPage = 10): LengthAwarePaginator
+    {
+        return $this->baseQuery()->with('permissions')->paginate()->withQueryString();
+    }
 }

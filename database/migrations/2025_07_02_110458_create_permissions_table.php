@@ -24,21 +24,21 @@ return new class extends Migration
         $permissions = [
 
             // Roles
-            ['name'=>'Manage Roles','slug' => 'manage-roles'],
+            ['name' => 'Manage Roles', 'slug' => 'manage-roles'],
 
             // Statuses
-            ['name'=>'Manage Status','slug' => 'manage-status'],
-            ['name'=>'Validate Status','slug' => 'validate-status'],
+            ['name' => 'Manage Status', 'slug' => 'manage-status'],
+            ['name' => 'Validate Status', 'slug' => 'validate-status'],
 
             // Permissions
-            ['name'=>'Manage Permissions','slug' => 'manage-permission'],
+            ['name' => 'Manage Permissions', 'slug' => 'manage-permissions'],
 
             // Assignments
-            ['name'=>'Assign Roles','slug' => 'assign-roles'],
-            ['name'=>'Assign Permissions','slug' => 'assign-permission'],
+            ['name' => 'Assign Roles', 'slug' => 'assign-roles'],
+            ['name' => 'Assign Permissions', 'slug' => 'assign-permissions'],
 
             // Users
-            ['name'=>'Manage Users','slug' => 'manage-users'],
+            ['name' => 'Manage Users', 'slug' => 'manage-users'],
         ];
 
         $data = array_map(function ($permission) use ($now) {

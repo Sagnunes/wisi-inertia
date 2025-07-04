@@ -29,9 +29,9 @@ final readonly class RoleService
         ];
     }
 
-    public function getRole(int $id): RoleDTO
+    public function getRole(int $id): Role
     {
-        return $this->toDto($this->repository->find($id));
+        return $this->repository->find($id);
     }
 
     public function getRoles(): array
@@ -68,5 +68,10 @@ final readonly class RoleService
     public function deleteRole(Role $role): bool
     {
         return $this->repository->delete($role);
+    }
+
+    public function getAllRolesWithPermissions(): array
+    {
+        return $this->repository->paginateWithPermissions()->toArray();
     }
 }

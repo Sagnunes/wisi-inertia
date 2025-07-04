@@ -12,16 +12,15 @@ use Inertia\Response;
 
 class PermissionController extends Controller
 {
-    public function __construct(private readonly PermissionService $service)
-    {
-    }
+    public function __construct(private readonly PermissionService $service) {}
 
     /**
      * Display a listing of the resource.
      */
     public function index()
-    {;
+    {
         $permissions = $this->service->getPermissionsPaginated(50);
+
         return Inertia::render('Management/Permissions/Index', compact('permissions'));
     }
 

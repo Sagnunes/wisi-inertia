@@ -62,4 +62,9 @@ class PermissionPolicy
     {
         return false;
     }
+
+    public function manage(User $user): bool
+    {
+        return $user->hasPermission(\App\Enums\Permission::MANAGE);
+    }
 }

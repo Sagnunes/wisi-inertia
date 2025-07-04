@@ -22,6 +22,7 @@ export interface Role {
     description: string;
     created_at: string;
     updated_at: string;
+    permissions?: Permission[];
 }
 
 export interface Permission {

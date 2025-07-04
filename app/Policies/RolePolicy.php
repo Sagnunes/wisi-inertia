@@ -62,4 +62,9 @@ class RolePolicy
     {
         return false;
     }
+
+    public function manage(User $user): bool
+    {
+        return $user->hasPermission(\App\Enums\Role::MANAGE);
+    }
 }

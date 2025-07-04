@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DTOs\Role\RoleDTO;
+use App\Http\Requests\Roles\StoreRoleRequest;
 use App\Http\Requests\Roles\UpdateRoleRequest;
-use App\Http\Requests\StoreRoleRequest;
 use App\Models\Role;
 use App\Services\RoleService;
 use Illuminate\Http\RedirectResponse;
@@ -60,6 +60,7 @@ class RoleController extends Controller
     public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
     {
         $this->service->updateRole($role, RoleDTO::fromRequest($request->validated()));
+
         return to_route('roles.edit', $role);
     }
 
@@ -69,6 +70,7 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         $this->service->deleteRole($role);
+
         return redirect()->back()->with('status', 'Role deleted successfully.');
     }
 }

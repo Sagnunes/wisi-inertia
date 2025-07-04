@@ -1,43 +1,42 @@
 <script setup lang="ts">
 import CreateDialog from '@/components/CreateDialog.vue';
 import DataTable from '@/components/DataTable/DataTable.vue';
-import { roleColumns } from '@/components/DataTable/roles/columns';
+import {permissionColumns} from '@/components/DataTable/permissions/columns';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import Pagination from '@/components/Pagination.vue';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem, Paginator, Role } from '@/types';
+import { type BreadcrumbItem, Paginator, Permission } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { PropType } from 'vue';
 
 defineProps({
-    roles: {
-        type: Object as PropType<Paginator<Role>>,
+    permissions: {
+        type: Object as PropType<Paginator<Permission>>,
         required: true,
     },
 });
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Perfis',
-        href: '/administracao/perfis',
+        title: 'Permissões',
+        href: '/administracao/permissoes',
     },
 ];
 
 const fields = [
     { name: 'name', placeholder: 'Name', required: true },
-    { name: 'description', placeholder: 'Description' },
 ];
 
 const goToPage = (page: number) => {
     router.get(
-        route('roles.index'),
+        route('permissions.index'),
         { page },
         {
             preserveScroll: true,
             preserveState: true,
             replace: true,
-            only: ['roles'],
+            only: ['permissions'],
         },
     );
 };
@@ -48,24 +47,24 @@ const goToPage = (page: number) => {
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex flex-col space-y-6 px-4 py-6">
             <div class="flex flex-row items-end justify-between gap-4">
-                <HeadingSmall title="Perfis" description="Gerir os perfis do sistema" />
+                <HeadingSmall title="Permissões" description="Gerir as permissões do sistema" />
             </div>
             <div class="flex h-full flex-1 flex-col gap-4 rounded-xl">
-                <DataTable :columns="roleColumns" :data="roles.data">
+                <DataTable :columns="permissionColumns" :data="permissions.data">
                     <template #create>
                         <CreateDialog
-                            resource-name="role"
-                            route-name="roles.store"
+                            resource-name="permission"
+                            route-name="permissions.store"
                             :fields="fields"
                             :initial-form-data="{ name: '', description: '' }"
                         >
                             <template #trigger>
-                                <Button variant="default" class="hover:cursor-pointer"> Novo Perfil</Button>
+                                <Button variant="default" class="hover:cursor-pointer"> Nova Permissão</Button>
                             </template>
                         </CreateDialog>
                     </template>
                 </DataTable>
-                <Pagination :pagination="roles" @page-change="goToPage" />
+                <Pagination :pagination="permissions" @page-change="goToPage" />
             </div>
         </div>
     </AppLayout>

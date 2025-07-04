@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Contracts\PermissionRepositoryInterface;
 use App\Contracts\RoleRepositoryInterface;
+use App\Repositories\EloquentPermissionRepository;
 use App\Repositories\EloquentRoleRepository;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(RoleRepositoryInterface::class, EloquentRoleRepository::class);
+        $this->app->bind(PermissionRepositoryInterface::class, EloquentPermissionRepository::class);
     }
 
     /**

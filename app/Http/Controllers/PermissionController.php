@@ -2,26 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Roles\UpdatePermissionRequest;
-use App\Http\Requests\StorePermissionRequest;
+use App\DTOs\Permission\PermissionDTO;
+use App\Http\Requests\Permissions\StorePermissionRequest;
+use App\Http\Requests\Permissions\UpdatePermissionRequest;
 use App\Models\Permission;
+use App\Services\PermissionService;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class PermissionController extends Controller
 {
+    public function __construct(private readonly PermissionService $service)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    {;
+        $permissions = $this->service->getPermissionsPaginated(50);
+        return Inertia::render('Management/Permissions/Index', compact('permissions'));
     }
 
     /**
@@ -29,7 +30,11 @@ class PermissionController extends Controller
      */
     public function store(StorePermissionRequest $request)
     {
-        //
+        $dto = PermissionDTO::fromRequest($request->validated());
+
+        $this->service->createPermission($dto);
+
+        return to_route('permissions.index')->with('status', 'Permission created successfully.');
     }
 
     /**
@@ -43,9 +48,9 @@ class PermissionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Permission $permission)
+    public function edit(Permission $permission): Response
     {
-        //
+        return Inertia::render('Management/Permissions/Edit', compact('permission'));
     }
 
     /**
@@ -53,7 +58,9 @@ class PermissionController extends Controller
      */
     public function update(UpdatePermissionRequest $request, Permission $permission)
     {
-        //
+        $this->service->updatePermission($permission, PermissionDTO::fromRequest($request->validated()));
+
+        return to_route('permissions.edit', $permission);
     }
 
     /**
@@ -61,6 +68,8 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
-        //
+        $this->service->deletePermission($permission);
+
+        return redirect()->back()->with('status', 'Permission deleted successfully.');
     }
 }

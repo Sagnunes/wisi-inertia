@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -12,8 +13,9 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::prefix('administracao')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('administracao')->group(function () {
     Route::resource('perfis', RoleController::class)->names('roles')->parameter('perfis', 'role')->except('create');
-})->middleware(['auth', 'verified']);
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+    Route::resource('permissoes', PermissionController::class)->names('permissions')->parameter('permissoes', 'permission')->except('create');
+});
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';

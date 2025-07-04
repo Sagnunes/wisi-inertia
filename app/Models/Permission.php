@@ -11,6 +11,8 @@ class Permission extends Model
     /** @use HasFactory<\Database\Factories\PermissionFactory> */
     use HasFactory;
 
+    protected $fillable = ['name', 'slug'];
+
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'role_permission');

@@ -24,6 +24,14 @@ export interface Role {
     updated_at: string;
 }
 
+export interface Permission {
+    id: number;
+    name: string;
+    slug: string;
+    created_at: string;
+    updated_at: string;
+}
+
 export interface BreadcrumbItem {
     title: string;
     href: string;

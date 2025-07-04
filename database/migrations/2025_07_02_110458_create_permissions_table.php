@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->string('slug')->unique();
             $table->timestamps();
         });
@@ -23,21 +24,21 @@ return new class extends Migration
         $permissions = [
 
             // Roles
-            ['slug' => 'manage-roles'],
+            ['name'=>'Manage Roles','slug' => 'manage-roles'],
 
             // Statuses
-            ['slug' => 'manage-status'],
-            ['slug' => 'validate-status'],
+            ['name'=>'Manage Status','slug' => 'manage-status'],
+            ['name'=>'Validate Status','slug' => 'validate-status'],
 
             // Permissions
-            ['slug' => 'manage-permission'],
+            ['name'=>'Manage Permissions','slug' => 'manage-permission'],
 
             // Assignments
-            ['slug' => 'assign-roles'],
-            ['slug' => 'assign-permission'],
+            ['name'=>'Assign Roles','slug' => 'assign-roles'],
+            ['name'=>'Assign Permissions','slug' => 'assign-permission'],
 
             // Users
-            ['slug' => 'manage-users'],
+            ['name'=>'Manage Users','slug' => 'manage-users'],
         ];
 
         $data = array_map(function ($permission) use ($now) {

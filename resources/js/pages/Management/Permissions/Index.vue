@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CreateDialog from '@/components/CreateDialog.vue';
 import DataTable from '@/components/DataTable/DataTable.vue';
-import {permissionColumns} from '@/components/DataTable/permissions/columns';
+import { permissionColumns } from '@/components/DataTable/permissions/columns';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import Pagination from '@/components/Pagination.vue';
 import { Button } from '@/components/ui/button';
@@ -24,9 +24,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const fields = [
-    { name: 'name', placeholder: 'Name', required: true },
-];
+const fields = [{ name: 'name', placeholder: 'Name', required: true }];
 
 const goToPage = (page: number) => {
     router.get(

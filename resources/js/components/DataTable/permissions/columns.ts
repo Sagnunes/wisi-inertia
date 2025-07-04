@@ -7,7 +7,7 @@ import DataTableDropdown from './DataTableDropdown.vue';
 
 export const permissionColumns: ColumnDef<Permission>[] = [
     {
-        accessorKey: 'slug',
+        accessorKey: 'name',
         header: ({ column }) => {
             return h(
                 Button,
@@ -18,10 +18,15 @@ export const permissionColumns: ColumnDef<Permission>[] = [
                 () => ['Name', h(ArrowUpDown, { class: 'ml-2 h-4 w-4 cursor-pointer' })],
             );
         },
-        cell: ({ row }) => h('div', row.getValue('slug')),
+        cell: ({ row }) => h('div', row.getValue('name')),
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         isDefaultFilter: true,
+    },
+    {
+        accessorKey: 'slug',
+        header: '',
+        cell: ({ row }) => row.original.slug,
     },
     {
         accessorKey: 'created_at',

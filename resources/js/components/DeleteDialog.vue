@@ -61,28 +61,23 @@ const displayValue = computed(() => props.resource[props.displayKey] || props.re
         <DialogContent>
             <form @submit.prevent="deleteResource">
                 <DialogHeader class="space-y-3">
-                    <DialogTitle>
-                        Are you sure you want to delete "{{ displayValue }}"?
-                    </DialogTitle>
+                    <DialogTitle> Are you sure you want to delete "{{ displayValue }}"? </DialogTitle>
                     <DialogDescription>
                         <slot name="description">
-                            Once the {{ resourceName }} is deleted, all of its resources and data will
-                            also be permanently deleted.
+                            Once the {{ resourceName }} is deleted, all of its resources and data will also be permanently deleted.
                         </slot>
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
                     <DialogClose as-child>
-                        <Button variant="secondary" @click="closeModal" aria-label="Cancel delete">
-                            Cancel
-                        </Button>
+                        <Button variant="secondary" @click="closeModal" aria-label="Cancel delete"> Cancel </Button>
                     </DialogClose>
                     <Button variant="destructive" :disabled="form.processing" aria-label="Confirm delete">
-                        <span v-if="form.processing" class="animate-spin mr-2">⏳</span>
+                        <span v-if="form.processing" class="mr-2 animate-spin">⏳</span>
                         Delete
                     </Button>
                 </DialogFooter>
-                <div v-if="form.hasErrors" class="text-red-500 mt-2">
+                <div v-if="form.hasErrors" class="mt-2 text-red-500">
                     <div v-for="(error, key) in form.errors" :key="key">{{ error }}</div>
                 </div>
             </form>

@@ -1,5 +1,6 @@
 <!-- DataTableDropdown.vue -->
 <script setup lang="ts">
+import DeleteDialog from '@/components/DeleteDialog.vue';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -12,7 +13,6 @@ import {
 import { router } from '@inertiajs/vue3';
 import { MoreHorizontal } from 'lucide-vue-next';
 import { ref } from 'vue';
-import DeleteDialog from '@/components/DeleteDialog.vue';
 
 const props = defineProps({
     role: {
@@ -31,14 +31,16 @@ function closeDeleteDialog() {
     showDeleteDialog.value = false;
 }
 
-
-
 function copyId(id: string) {
     navigator.clipboard.writeText(id);
 }
 
 const handleEditUrl = () => {
     router.get(route('roles.edit', props.role));
+};
+
+const handleAssignPermissionsUrl = () => {
+    router.get(route('roles.permissions.edit', props.role));
 };
 </script>
 
@@ -51,11 +53,13 @@ const handleEditUrl = () => {
             </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem @click="copyId(role.id)">Copy ID</DropdownMenuItem>
+            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+            <DropdownMenuItem @click="copyId(role.id)">Copiar ID</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem @click="handleEditUrl">Edit</DropdownMenuItem>
-            <DropdownMenuItem @click="openDeleteDialog">Delete</DropdownMenuItem>
+            <DropdownMenuItem @click="handleEditUrl">Editar</DropdownMenuItem>
+            <DropdownMenuItem @click="openDeleteDialog">Apagar</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem @click="handleAssignPermissionsUrl">Atribuir permissões</DropdownMenuItem>
         </DropdownMenuContent>
     </DropdownMenu>
 

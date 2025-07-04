@@ -1,5 +1,6 @@
 <!-- DataTableDropdown.vue -->
 <script setup lang="ts">
+import DeleteDialog from '@/components/DeleteDialog.vue';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -12,7 +13,6 @@ import {
 import { router } from '@inertiajs/vue3';
 import { MoreHorizontal } from 'lucide-vue-next';
 import { ref } from 'vue';
-import DeleteDialog from '@/components/DeleteDialog.vue';
 
 const props = defineProps({
     permission: {
@@ -30,8 +30,6 @@ function openDeleteDialog() {
 function closeDeleteDialog() {
     showDeleteDialog.value = false;
 }
-
-
 
 function copyId(id: string) {
     navigator.clipboard.writeText(id);

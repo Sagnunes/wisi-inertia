@@ -67,4 +67,9 @@ class RolePolicy
     {
         return $user->hasPermission(\App\Enums\Role::MANAGE);
     }
+
+    public function assignPermission(User $user): bool
+    {
+        return $user->hasPermission(\App\Enums\Permission::ASSIGN);
+    }
 }

@@ -10,12 +10,12 @@ import { Head, useForm } from '@inertiajs/vue3';
 import { computed, PropType, ref } from 'vue';
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Perfis',
-        href: '/administracao/perfis',
+        title: 'Utilizadores',
+        href: '/administracao/utilizadores',
     },
     {
-        title: 'Atribuir Permissões',
-        href: '/dashboard',
+        title: 'Atribuir Perfis ao Utilizador',
+        href: '/administracao/utilizadores',
     },
 ];
 
@@ -60,7 +60,7 @@ const submit = () => {
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex flex-col space-y-6 px-4 py-6">
             <div class="flex flex-row items-end justify-between gap-4">
-                <HeadingSmall title="Permissões" description="Gerir as permissões do sistema" />
+                <HeadingSmall title="Atribuir perfil ao utilizador" description="Escolher os perfis " />
             </div>
             <div class="flex h-full flex-1 flex-col rounded-xl p-6">
                 <form @submit.prevent="submit" class="mx-auto flex w-full max-w-2xl flex-col gap-6">

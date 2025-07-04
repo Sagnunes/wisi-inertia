@@ -38,7 +38,7 @@ export const roleColumns: ColumnDef<Role>[] = [
                 'div',
                 {
                     class: 'flex flex-wrap gap-2 justify-start items-center',
-                    style: { width: '700px' },
+                    style: { width: '500px' },
                 },
                 row.original.permissions?.map((permission) =>
                     h(

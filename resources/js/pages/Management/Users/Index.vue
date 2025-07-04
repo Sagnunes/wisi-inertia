@@ -17,14 +17,14 @@ defineProps({
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Perfis',
-        href: '/administracao/perfis',
+        title: 'Utilizadores',
+        href: '/administracao/utilizadores',
     },
 ];
 
 const goToPage = (page: number) => {
     router.get(
-        route('roles.index'),
+        route('users.index'),
         { page },
         {
             preserveScroll: true,
@@ -38,11 +38,10 @@ const goToPage = (page: number) => {
 
 <template>
     <Head title="Dashboard" />
-    {{ users }}
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex flex-col space-y-6 px-4 py-6">
             <div class="flex flex-row items-end justify-between gap-4">
-                <HeadingSmall title="Perfis" description="Gerir os perfis do sistema" />
+                <HeadingSmall title="Utilizadores" description="Gerir os utilizadores do sistema" />
             </div>
             <div class="flex h-full flex-1 flex-col gap-4 rounded-xl">
                 <DataTable :columns="userColumns" :data="users" />

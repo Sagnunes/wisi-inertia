@@ -19,6 +19,8 @@ export const roleColumns: ColumnDef<Role>[] = [
             );
         },
         cell: ({ row }) => h('div', row.getValue('name')),
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         isDefaultFilter: true,
     },
     {

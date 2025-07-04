@@ -1,10 +1,10 @@
 <script setup lang="ts" generic="TData, TValue">
-import type { ColumnDef, SortingState, ColumnFiltersState } from '@tanstack/vue-table';
-import { useVueTable, getCoreRowModel, FlexRender, getSortedRowModel, getFilteredRowModel } from '@tanstack/vue-table';
+import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { valueUpdater } from '@/lib/utils';
+import type { ColumnDef, ColumnFiltersState, SortingState } from '@tanstack/vue-table';
+import { FlexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useVueTable } from '@tanstack/vue-table';
 import { computed, ref } from 'vue';
-import { Input } from '@/components/ui/input';
 
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[];
@@ -38,20 +38,21 @@ const table = useVueTable({
 
 const defaultFilterColumn = computed(() => {
     // Find the column marked as default filter
-    const col = props.columns.find(col => (col as any).isDefaultFilter)
+    const col = props.columns.find((col) => (col as any).isDefaultFilter);
     // Fallback: use the first column with accessorKey
-    return col?.accessorKey || props.columns.find(col => col.accessorKey)?.accessorKey
-})
+    return col?.accessorKey || props.columns.find((col) => col.accessorKey)?.accessorKey;
+});
 </script>
 
 <template>
-    <div class="flex items-center py-4">
+    <div class="flex items-center justify-between px-2 py-4">
         <Input
             class="max-w-sm"
             placeholder="Filtrar"
             :model-value="table.getColumn(defaultFilterColumn)?.getFilterValue() as string"
             @update:model-value="table.getColumn(defaultFilterColumn)?.setFilterValue($event)"
         />
+        <slot name="create" />
     </div>
     <div class="overflow-auto rounded-md border">
         <Table>

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\DTOs\Role\RoleDTO;
+use App\Http\Requests\Roles\UpdateRoleRequest;
 use App\Http\Requests\StoreRoleRequest;
-use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
 use App\Services\RoleService;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class RoleController extends Controller
 {
@@ -16,19 +18,11 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): \Inertia\Response
+    public function index(): Response
     {
         $roles = $this->service->getRolesPaginated(50);
 
         return Inertia::render('Management/Roles/Index', compact('roles'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -40,7 +34,7 @@ class RoleController extends Controller
 
         $this->service->createRole($dto);
 
-        return to_route('perfis.index')->with('success', 'Role created successfully.');
+        return to_route('roles.index')->with('status', 'Role created successfully.');
 
     }
 
@@ -55,17 +49,18 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Role $role)
+    public function edit(Role $role): Response
     {
-        //
+        return Inertia::render('Management/Roles/Edit', compact('role'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
     {
-        //
+        $this->service->updateRole($role, RoleDTO::fromRequest($request->validated()));
+        return to_route('roles.edit', $role);
     }
 
     /**
@@ -73,6 +68,7 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        $this->service->deleteRole($role);
+        return redirect()->back()->with('status', 'Role deleted successfully.');
     }
 }

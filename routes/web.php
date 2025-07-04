@@ -13,7 +13,7 @@ Route::get('dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('administracao')->group(function () {
-    Route::resource('perfis', RoleController::class)->except('create');
-});
+    Route::resource('perfis', RoleController::class)->names('roles')->parameter('perfis', 'role')->except('create');
+})->middleware(['auth', 'verified']);
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

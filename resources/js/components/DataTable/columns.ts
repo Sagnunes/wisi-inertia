@@ -1,13 +1,13 @@
 // columns.ts
-import type { ColumnDef } from '@tanstack/vue-table'
-import { h } from 'vue'
-import DataTableDropdown from './DataTableDropdown.vue'
+import type { ColumnDef } from '@tanstack/vue-table';
+import { h } from 'vue';
+import DataTableDropdown from './DataTableDropdown.vue';
 
 export type User = {
-    id: string
-    name: string
-    email: string
-}
+    id: string;
+    name: string;
+    email: string;
+};
 
 export const userColumns: ColumnDef<User>[] = [
     {
@@ -26,4 +26,4 @@ export const userColumns: ColumnDef<User>[] = [
         enableHiding: false,
         cell: ({ row }) => h(DataTableDropdown, { user: row.original }),
     },
-]
+];

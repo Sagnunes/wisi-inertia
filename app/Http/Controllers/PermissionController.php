@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Roles\UpdatePermissionRequest;
 use App\Http\Requests\StorePermissionRequest;
-use App\Http\Requests\UpdatePermissionRequest;
 use App\Models\Permission;
 
 class PermissionController extends Controller

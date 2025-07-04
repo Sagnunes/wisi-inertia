@@ -1,27 +1,45 @@
 <!-- DataTableDropdown.vue -->
 <script setup lang="ts">
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
-    DropdownMenuTrigger,
-    DropdownMenuLabel,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
     DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { router } from '@inertiajs/vue3';
+import { MoreHorizontal } from 'lucide-vue-next';
+import { ref } from 'vue';
+import DeleteDialog from '@/components/DeleteDialog.vue';
 
-defineProps({
+const props = defineProps({
     role: {
         type: Object,
         required: true,
     },
 });
 
+const showDeleteDialog = ref(false);
+
+function openDeleteDialog() {
+    showDeleteDialog.value = true;
+}
+
+function closeDeleteDialog() {
+    showDeleteDialog.value = false;
+}
+
+
+
 function copyId(id: string) {
     navigator.clipboard.writeText(id);
 }
 
-import { MoreHorizontal } from 'lucide-vue-next';
-import { Button } from '@/components/ui/button';
+const handleEditUrl = () => {
+    router.get(route('roles.edit', props.role));
+};
 </script>
 
 <template>
@@ -36,8 +54,19 @@ import { Button } from '@/components/ui/button';
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem @click="copyId(role.id)">Copy ID</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem @click="handleEditUrl">Edit</DropdownMenuItem>
+            <DropdownMenuItem @click="openDeleteDialog">Delete</DropdownMenuItem>
         </DropdownMenuContent>
     </DropdownMenu>
+
+    <DeleteDialog
+        v-if="showDeleteDialog"
+        :resource="role"
+        route-name="roles.destroy"
+        resource-name="role"
+        :current-page="1"
+        identifier-key="id"
+        @deleted="closeDeleteDialog"
+        v-model:open="showDeleteDialog"
+    />
 </template>

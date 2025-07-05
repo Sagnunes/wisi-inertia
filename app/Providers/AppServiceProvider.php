@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Contracts\PermissionRepositoryInterface;
 use App\Contracts\RoleRepositoryInterface;
+use App\Contracts\UserRepositoryInterface;
 use App\Repositories\EloquentPermissionRepository;
 use App\Repositories\EloquentRoleRepository;
+use App\Repositories\EloquentUserRepository;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(RoleRepositoryInterface::class, EloquentRoleRepository::class);
         $this->app->bind(PermissionRepositoryInterface::class, EloquentPermissionRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, EloquentUserRepository::class);
     }
 
     /**

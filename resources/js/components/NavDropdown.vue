@@ -26,7 +26,7 @@ const page = usePage();
 function isGroupActive(item) {
     if (item.isActive) return true;
     if (!item.items) return false;
-    return item.items.some((subItem) => subItem.href === page.url);
+    return item.items.some((subItem) => page.url.includes(subItem.href));
 }
 </script>
 
@@ -46,7 +46,7 @@ function isGroupActive(item) {
                     <CollapsibleContent>
                         <SidebarMenuSub>
                             <SidebarMenuSubItem v-for="subItem in item.items" :key="subItem.title">
-                                <SidebarMenuSubButton as-child :is-active="subItem.href === page.url">
+                                <SidebarMenuSubButton as-child :is-active="page.url.includes(subItem.href)">
                                     <Link :href="subItem.href">
                                         <span>{{ subItem.title }}</span>
                                     </Link>

@@ -5,9 +5,13 @@ import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import { BookOpen, Folder, LayoutGrid, SquareTerminal } from 'lucide-vue-next';
+import { computed } from 'vue';
 import AppLogo from './AppLogo.vue';
+import UserRole from '@/enums/UserRole';
+
+const page = usePage();
 
 const mainNavItems: NavItem[] = [
     {
@@ -36,6 +40,7 @@ const navManagementItems: NavItem[] = [
         href: '#',
         icon: SquareTerminal,
         isActive: false,
+        roles: [UserRole.ADMIN],
         items: [
             {
                 title: 'Perfis',
@@ -52,6 +57,23 @@ const navManagementItems: NavItem[] = [
         ],
     },
 ];
+
+const userRoles = computed(() =>
+    page.props.auth.user?.roles?.map((role) => role.name) ?? []
+);
+
+const filterNavItemsByUserRoles = (items: NavItem[], userRoles: string[]): NavItem[] => {
+    return items.filter((item) => {
+        if (!item.roles || item.roles.length === 0) {
+            return true;
+        }
+        return item.roles.some((role) => userRoles.includes(role));
+    });
+};
+
+const filteredNavManagementItems = computed(() =>
+    filterNavItemsByUserRoles(navManagementItems, userRoles.value)
+);
 </script>
 
 <template>
@@ -71,9 +93,8 @@ const navManagementItems: NavItem[] = [
         <SidebarContent>
             <NavMain :items="mainNavItems" />
         </SidebarContent>
-
         <SidebarFooter>
-            <NavDropdown :nav-items="navManagementItems" />
+            <NavDropdown :nav-items="filteredNavManagementItems" v-if="filteredNavManagementItems.length > 0"/>
             <NavFooter :items="footerNavItems" />
             <NavUser />
         </SidebarFooter>

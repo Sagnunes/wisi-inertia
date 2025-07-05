@@ -20,14 +20,14 @@ export const userColumns: ColumnDef<User>[] = [
                 () => ['Name', h(ArrowUpDown, { class: 'ml-2 h-4 w-4 cursor-pointer' })],
             );
         },
-        cell: ({ row }) => h('div', { class: 'text-center min-w-[50px] max-w-[100px] truncate' }, row.getValue('name')),
+        cell: ({ row }) => h('div', { class: 'text-start' }, row.getValue('name')),
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         isDefaultFilter: true,
     },
     {
         accessorKey: 'email',
-        header: () => h('span', { class: 'block' }, 'Descrição'),
+        header: () => h('span', { class: 'block' }, 'Email'),
         cell: ({ row }) => h('span', { class: 'block' }, row.original.email),
     },
     {

@@ -4,13 +4,13 @@ import { userColumns } from '@/components/DataTable/users/columns';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import Pagination from '@/components/Pagination.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem, User } from '@/types';
+import { type BreadcrumbItem, Paginator, User } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { PropType } from 'vue';
 
 defineProps({
     users: {
-        type: Object as PropType<User[]>,
+        type: Object as PropType<Paginator<User>>,
         required: true,
     },
 });
@@ -44,7 +44,7 @@ const goToPage = (page: number) => {
                 <HeadingSmall title="Utilizadores" description="Gerir os utilizadores do sistema" />
             </div>
             <div class="flex h-full flex-1 flex-col gap-4 rounded-xl">
-                <DataTable :columns="userColumns" :data="users" />
+                <DataTable :columns="userColumns" :data="users.data" />
                 <Pagination :pagination="users" @page-change="goToPage" />
             </div>
         </div>

@@ -51,10 +51,14 @@ const handleAssignRolesUrl = () => {
         <DropdownMenuContent align="end">
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
             <DropdownMenuItem @click="copyId(user.id)">Copiar ID</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem @click="openDeleteDialog">Apagar</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem @click="handleAssignRolesUrl">Atribuir perfil</DropdownMenuItem>
+            <template v-if="user.can.delete">
+                <DropdownMenuSeparator />
+                <DropdownMenuItem @click="openDeleteDialog">Apagar</DropdownMenuItem>
+            </template>
+            <template v-if="user.can.assignRole">
+                <DropdownMenuSeparator />
+                <DropdownMenuItem @click="handleAssignRolesUrl">Atribuir perfil</DropdownMenuItem>
+            </template>
         </DropdownMenuContent>
     </DropdownMenu>
 

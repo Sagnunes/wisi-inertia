@@ -32,6 +32,7 @@ Route::middleware(['auth', 'verified'])->prefix('administracao')->group(function
 
     Route::middleware('can:manage,App\Models\User')->group(function () {
         Route::get('utilizadores', [UserController::class, 'index'])->name('users.index');
+        Route::delete('utilizadores/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     });
 
     Route::middleware('can:assign-role,App\Models\User')->group(function () {

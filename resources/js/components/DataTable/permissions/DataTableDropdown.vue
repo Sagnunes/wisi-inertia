@@ -52,8 +52,8 @@ const handleEditUrl = () => {
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem @click="copyId(permission.id)">Copy ID</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem @click="handleEditUrl">Edit</DropdownMenuItem>
-            <DropdownMenuItem @click="openDeleteDialog">Delete</DropdownMenuItem>
+            <DropdownMenuItem @click="handleEditUrl" v-if="permission.can.update">Edit</DropdownMenuItem>
+            <DropdownMenuItem @click="openDeleteDialog" v-if="permission.can.delete">Delete</DropdownMenuItem>
         </DropdownMenuContent>
     </DropdownMenu>
 

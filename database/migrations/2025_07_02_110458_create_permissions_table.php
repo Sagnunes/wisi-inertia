@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -20,35 +19,34 @@ return new class extends Migration
         });
 
         $now = Carbon\Carbon::now();
+        $resources = ['role', 'status', 'permission', 'user'];
+        $actions = ['create', 'view', 'update', 'delete'];
 
-        $permissions = [
+        $permissions = [];
 
-            // Roles
-            ['name' => 'Manage Roles', 'slug' => 'manage-roles'],
+        foreach ($resources as $resource) {
+            foreach ($actions as $action) {
+                $permissions[] = [
+                    'name' => ucfirst($action).' '.ucfirst($resource).'s',
+                    'slug' => $action.'-'.$resource.'s',
+                ];
+            }
+        }
 
-            // Statuses
-            ['name' => 'Manage Status', 'slug' => 'manage-status'],
-            ['name' => 'Validate Status', 'slug' => 'validate-status'],
-
-            // Permissions
-            ['name' => 'Manage Permissions', 'slug' => 'manage-permissions'],
-
-            // Assignments
-            ['name' => 'Assign Roles', 'slug' => 'assign-roles'],
-            ['name' => 'Assign Permissions', 'slug' => 'assign-permissions'],
-
-            // Users
-            ['name' => 'Manage Users', 'slug' => 'manage-users'],
+        $specialPermissions = [
+            ['name' => 'Assign Role', 'slug' => 'assign-role'],
+            ['name' => 'Assign Permission', 'slug' => 'assign-permission'],
         ];
 
-        $data = array_map(function ($permission) use ($now) {
-            return array_merge($permission, [
-                'created_at' => $now,
-                'updated_at' => $now,
-            ]);
-        }, $permissions);
+        $permissions = array_merge($permissions, $specialPermissions);
 
-        DB::table('permissions')->insert($data);
+        foreach ($permissions as $permission) {
+            \App\Models\Permission::updateOrCreate(
+                ['slug' => $permission['slug']],
+                ['name' => $permission['name']],
+                ['created_at' => $now]
+            );
+        }
     }
 
     /**

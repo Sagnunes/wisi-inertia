@@ -7,11 +7,14 @@ use App\Http\Requests\Permissions\StorePermissionRequest;
 use App\Http\Requests\Permissions\UpdatePermissionRequest;
 use App\Models\Permission;
 use App\Services\PermissionService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class PermissionController extends Controller
 {
+    use AuthorizesRequests;
+
     public function __construct(private readonly PermissionService $service) {}
 
     /**
@@ -19,9 +22,16 @@ class PermissionController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Permission::class);
+
         $permissions = $this->service->getPermissionsPaginated(50);
 
-        return Inertia::render('Management/Permissions/Index', compact('permissions'));
+        return Inertia::render('Management/Permissions/Index', [
+            'permissions' => $permissions,
+            'can' => [
+                'create' => auth()->user()->can('create', Permission::class),
+            ],
+        ]);
     }
 
     /**
@@ -29,6 +39,7 @@ class PermissionController extends Controller
      */
     public function store(StorePermissionRequest $request)
     {
+        $this->authorize('create', Permission::class);
         $dto = PermissionDTO::fromRequest($request->validated());
 
         $this->service->createPermission($dto);
@@ -57,6 +68,7 @@ class PermissionController extends Controller
      */
     public function update(UpdatePermissionRequest $request, Permission $permission)
     {
+        $this->authorize('update', $permission);
         $this->service->updatePermission($permission, PermissionDTO::fromRequest($request->validated()));
 
         return to_route('permissions.edit', $permission);
@@ -67,6 +79,7 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
+        $this->authorize('delete', $permission);
         $this->service->deletePermission($permission);
 
         return redirect()->back()->with('status', 'Permission deleted successfully.');

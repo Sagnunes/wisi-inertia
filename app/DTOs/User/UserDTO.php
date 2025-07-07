@@ -14,6 +14,7 @@ final readonly class UserDTO
         public ?int $id = null,
         public ?string $created_at = null,
         public ?string $updated_at = null,
+        public ?\Illuminate\Database\Eloquent\Collection $roles = null,
     ) {}
 
     public static function fromRequest(array $data): self
@@ -31,14 +32,25 @@ final readonly class UserDTO
             email: $user->email,
             id: $user->id,
             created_at: $user->created_at->format('Y-m-d'),
+            roles: $user->roles
         );
     }
 
-    public function toArrayForPersistence(): array
+    public function toArray(): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'roles' => collect($this->roles ?? [])->map(function ($role) {
+                return [
+                    'id' => $role->id,
+                    'name' => $role->name,
+                    'slug' => $role->slug,
+                ];
+            })->toArray(),
         ];
     }
 }

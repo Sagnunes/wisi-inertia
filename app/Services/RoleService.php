@@ -41,11 +41,22 @@ final readonly class RoleService
             ->toArray();
     }
 
-    public function getRolesPaginated(int $perPage = 15): array
+    public function getAllRolesWithPermissions(): array
     {
-        $paginated = $this->repository->paginate($perPage);
+        $paginated = $this->repository->paginateWithPermissions();
 
-        return $this->formatPagination($paginated, fn (Role $role) => $this->toDto($role));
+        $paginated = $paginated->through(function (Role $role) {
+            return [
+                ...$this->toDto($role)->toArray(),
+                'can' => [
+                    'update' => auth()->user()?->can('update', $role) ?? false,
+                    'delete' => auth()->user()?->can('delete', $role) ?? false,
+                    'assign' => auth()->user()?->can('assign', \App\Models\Role::class) ?? false,
+                ],
+            ];
+        });
+
+        return $this->formatPagination($paginated, fn ($item) => $item);
     }
 
     public function createRole(RoleDTO $dto): RoleDTO
@@ -68,10 +79,5 @@ final readonly class RoleService
     public function deleteRole(Role $role): bool
     {
         return $this->repository->delete($role);
-    }
-
-    public function getAllRolesWithPermissions(): array
-    {
-        return $this->repository->paginateWithPermissions()->toArray();
     }
 }

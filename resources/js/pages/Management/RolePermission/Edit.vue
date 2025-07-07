@@ -8,6 +8,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem, Permission, Role } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { computed, PropType, ref } from 'vue';
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Perfis',

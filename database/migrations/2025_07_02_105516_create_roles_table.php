@@ -21,7 +21,23 @@ return new class extends Migration
         });
 
         DB::table('roles')->insert([
-            ['name' => 'Watcher', 'slug' => 'admin', 'description' => 'É a entidade máxima do sistema, com acesso irrestrito a todas as funcionalidades e informação. ', 'created_at' => \Carbon\Carbon::now()],
+            [
+                'name' => 'Watcher',
+                'slug' => 'watcher',
+                'description' => 'É a entidade máxima do sistema, com acesso irrestrito a todas as funcionalidades e informação. ',
+                'created_at' => \Carbon\Carbon::now()],
+            [
+                'name' => 'Director',
+                'slug' => 'director',
+                'description' => 'Administra e supervisiona áreas estratégicas do sistema, com permissões avançadas mas sem acesso irrestrito.',
+                'created_at' => \Carbon\Carbon::now(),
+            ],
+            [
+                'name' => 'Collector',
+                'slug' => 'collector',
+                'description' => 'Responsável pela gestão da coleção digital e pelo acesso a fotografias de determinados fundos.',
+                'created_at' => \Carbon\Carbon::now(),
+            ],
         ]);
     }
 

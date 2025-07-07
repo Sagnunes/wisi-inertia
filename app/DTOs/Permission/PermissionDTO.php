@@ -35,11 +35,14 @@ final readonly class PermissionDTO
         );
     }
 
-    public function toArrayForPersistence(): array
+    public function toArray(): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

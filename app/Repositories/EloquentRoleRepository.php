@@ -31,7 +31,7 @@ class EloquentRoleRepository implements RoleRepositoryInterface
 
     public function all(): Collection
     {
-        return $this->baseQuery()->get();
+        return $this->baseQuery()->with('permissions')->get();
     }
 
     public function paginate(int $perPage = 10): LengthAwarePaginator
@@ -61,8 +61,8 @@ class EloquentRoleRepository implements RoleRepositoryInterface
         return $role->delete();
     }
 
-    public function paginateWithPermissions(int $perPage = 10): LengthAwarePaginator
+    public function paginateWithPermissions(int $perPage = 15): LengthAwarePaginator
     {
-        return $this->baseQuery()->with('permissions')->paginate()->withQueryString();
+        return $this->baseQuery()->with('permissions')->paginate($perPage)->withQueryString();
     }
 }

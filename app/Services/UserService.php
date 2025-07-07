@@ -12,19 +12,13 @@ final readonly class UserService
 {
     use HasPaginationFormatting;
 
-    public function __construct(private UserRepositoryInterface $repository) {}
+    public function __construct(private UserRepositoryInterface $repository)
+    {
+    }
 
     private function toDto(User $user): UserDTO
     {
         return UserDTO::fromModel($user);
-    }
-
-    private function dtoToAttributes(UserDTO $dto): array
-    {
-        return [
-            'name' => $dto->name,
-            'email' => $dto->email,
-        ];
     }
 
     public function getUser(int $userId): User
@@ -35,15 +29,8 @@ final readonly class UserService
     public function getUsers(): array
     {
         return $this->repository->all()
-            ->map(fn (User $user) => $this->toDto($user))
+            ->map(fn(User $user) => $this->toDto($user))
             ->toArray();
-    }
-
-    public function getUsersPaginated(int $perPage = 15): array
-    {
-        $paginated = $this->repository->paginate($perPage);
-
-        return $this->formatPagination($paginated, fn (User $user) => $this->toDto($user));
     }
 
     public function deleteUser($user): bool
@@ -51,8 +38,20 @@ final readonly class UserService
         return $this->repository->delete($user);
     }
 
-    public function getUsersWithRolesAssociated(int $perPage = 15): LengthAwarePaginator
+    public function getUsersWithRolesAssociated(int $perPage = 15): array
     {
-        return $this->repository->paginateWithRoles($perPage);
+        $paginated = $this->repository->paginateWithRoles($perPage);
+
+        $paginated = $paginated->through(function (User $user) {
+            return [
+                ...$this->toDto($user)->toArray(),
+                'can' => [
+                    'delete' => auth()->user()?->can('delete', $user) ?? false,
+                    'assign' => auth()->user()?->can('assign', \App\Models\Role::class) ?? false,
+                ],
+            ];
+        });
+
+        return $this->formatPagination($paginated, fn($item) => $item);
     }
 }

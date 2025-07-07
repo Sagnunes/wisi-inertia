@@ -45,7 +45,7 @@ export interface NavItem {
     icon?: LucideIcon;
     isActive?: boolean;
     items?: NavItem[];
-    roles?: string[]
+    permissions?: string[];
 }
 
 export interface Paginator<T> {

@@ -34,7 +34,7 @@ const form = useForm({
     roles: [],
 });
 const modelValue = ref<Role[]>(props.user.roles ?? []);
-
+console.log(props.user.roles);
 const open = ref(false);
 const searchTerm = ref('');
 

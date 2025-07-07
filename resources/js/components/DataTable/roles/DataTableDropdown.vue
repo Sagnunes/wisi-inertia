@@ -55,11 +55,14 @@ const handleAssignPermissionsUrl = () => {
         <DropdownMenuContent align="end">
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
             <DropdownMenuItem @click="copyId(role.id)">Copiar ID</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem @click="handleEditUrl">Editar</DropdownMenuItem>
-            <DropdownMenuItem @click="openDeleteDialog">Apagar</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem @click="handleAssignPermissionsUrl">Atribuir permissões</DropdownMenuItem>
+            <DropdownMenuSeparator v-if="role.can.update || role.can.delete" />
+
+            <DropdownMenuItem @click="handleEditUrl" v-if="role.can.update">Editar</DropdownMenuItem>
+            <DropdownMenuItem @click="openDeleteDialog" v-if="role.can.delete">Apagar</DropdownMenuItem>
+            <template v-if="role.can.assign">
+                <DropdownMenuSeparator />
+                <DropdownMenuItem @click="handleAssignPermissionsUrl">Atribuir permissões</DropdownMenuItem>
+            </template>
         </DropdownMenuContent>
     </DropdownMenu>
 

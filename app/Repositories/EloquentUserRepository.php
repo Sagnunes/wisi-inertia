@@ -51,18 +51,8 @@ class EloquentUserRepository implements UserRepositoryInterface
 
     public function paginateWithRoles(int $perPage = 15)
     {
-        $currentUser = Auth::user();
-
         return $this->baseQuery()->with(['roles' => function ($query) {
-            $query->select('roles.id', 'roles.name');
-        }])->paginate($perPage)
-            ->through(function ($user) use ($currentUser) {
-                return array_merge($user->toArray(), [
-                    'can' => [
-                        'delete' => $currentUser ? $currentUser->can('delete', $user) : false,
-                        'assignRole' => $currentUser ? $currentUser->can('assignRole', $user) : false,
-                    ],
-                ]);
-            })->withQueryString();
+            $query->select('roles.id', 'roles.name', 'roles.slug');
+        }])->paginate($perPage)->withQueryString();
     }
 }

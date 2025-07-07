@@ -16,7 +16,7 @@ final readonly class RoleDTO
         public ?string $description = null,
         public ?string $created_at = null,
         public ?string $updated_at = null,
-        public ?array $permissions = null,
+        public ?\Illuminate\Database\Eloquent\Collection $permissions = null,
     ) {}
 
     public static function fromRequest(array $data): self
@@ -36,15 +36,26 @@ final readonly class RoleDTO
             id: $role->id,
             description: $role->description,
             created_at: $role->created_at->format('Y-m-d'),
+            permissions: $role->permissions,
         );
     }
 
-    public function toArrayForPersistence(): array
+    public function toArray(): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'permissions' => collect($this->permissions ?? [])->map(function ($permission) {
+                return [
+                    'id' => $permission->id,
+                    'name' => $permission->name,
+                    'slug' => $permission->slug,
+                ];
+            })->toArray(),
         ];
     }
 }

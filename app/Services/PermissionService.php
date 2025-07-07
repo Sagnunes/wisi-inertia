@@ -44,7 +44,17 @@ final readonly class PermissionService
     {
         $paginated = $this->repository->paginate($perPage);
 
-        return $this->formatPagination($paginated, fn (Permission $permission) => $this->toDto($permission));
+        $paginated = $paginated->through(function (Permission $permission) {
+            return [
+                ...$this->toDto($permission)->toArray(), // your DTO logic
+                'can' => [
+                    'update' => auth()->user()?->can('update', $permission) ?? false,
+                    'delete' => auth()->user()?->can('delete', $permission) ?? false,
+                ],
+            ];
+        });
+
+        return $this->formatPagination($paginated, fn ($item) => $item);
     }
 
     public function createPermission(PermissionDTO $dto): PermissionDTO

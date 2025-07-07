@@ -15,6 +15,9 @@ defineProps({
         type: Object as PropType<Paginator<Permission>>,
         required: true,
     },
+    can: {
+        type: Object as PropType<any>,
+    },
 });
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -49,7 +52,7 @@ const goToPage = (page: number) => {
             </div>
             <div class="flex h-full flex-1 flex-col gap-4 rounded-xl">
                 <DataTable :columns="permissionColumns" :data="permissions.data">
-                    <template #create>
+                    <template #create v-if="can.create">
                         <CreateDialog
                             resource-name="permission"
                             route-name="permissions.store"

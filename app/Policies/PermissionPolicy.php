@@ -2,17 +2,27 @@
 
 namespace App\Policies;
 
+use App\Enums\Role;
 use App\Models\Permission;
 use App\Models\User;
 
 class PermissionPolicy
 {
+    public function before(User $user, $ability): ?true
+    {
+        if ($user->hasRole(Role::WATCHER->getName())) {
+            return true;
+        }
+
+        return null;
+    }
+
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->hasPermission(\App\Enums\Permission::VIEW);
     }
 
     /**
@@ -28,7 +38,7 @@ class PermissionPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->hasPermission(\App\Enums\Permission::CREATE);
     }
 
     /**
@@ -36,7 +46,7 @@ class PermissionPolicy
      */
     public function update(User $user, Permission $permission): bool
     {
-        return false;
+        return $user->hasPermission(\App\Enums\Permission::UPDATE);
     }
 
     /**
@@ -44,7 +54,7 @@ class PermissionPolicy
      */
     public function delete(User $user, Permission $permission): bool
     {
-        return false;
+        return $user->hasPermission(\App\Enums\Permission::DELETE);
     }
 
     /**
@@ -61,10 +71,5 @@ class PermissionPolicy
     public function forceDelete(User $user, Permission $permission): bool
     {
         return false;
-    }
-
-    public function manage(User $user): bool
-    {
-        return $user->hasPermission(\App\Enums\Permission::MANAGE);
     }
 }

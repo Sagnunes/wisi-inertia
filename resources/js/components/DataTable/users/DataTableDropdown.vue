@@ -55,7 +55,7 @@ const handleAssignRolesUrl = () => {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem @click="openDeleteDialog">Apagar</DropdownMenuItem>
             </template>
-            <template v-if="user.can.assignRole">
+            <template v-if="user.can.assign">
                 <DropdownMenuSeparator />
                 <DropdownMenuItem @click="handleAssignRolesUrl">Atribuir perfil</DropdownMenuItem>
             </template>

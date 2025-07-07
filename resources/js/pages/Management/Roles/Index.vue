@@ -15,6 +15,9 @@ defineProps({
         type: Object as PropType<Paginator<Role>>,
         required: true,
     },
+    can: {
+        type: Object as PropType<any>,
+    },
 });
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -52,7 +55,7 @@ const goToPage = (page: number) => {
             </div>
             <div class="flex h-full flex-1 flex-col gap-4 rounded-xl">
                 <DataTable :columns="roleColumns" :data="roles.data">
-                    <template #create>
+                    <template #create v-if="can.create">
                         <CreateDialog
                             resource-name="role"
                             route-name="roles.store"

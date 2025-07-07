@@ -24,12 +24,6 @@ return new class extends Migration
             $table->foreignIdFor(Permission::class)->constrained()->cascadeOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
-
-        $permissions = Permission::all();
-
-        $permissions->each(function ($permission) {
-            $permission->roles()->attach(self::WATCHER);
-        });
     }
 
     /**

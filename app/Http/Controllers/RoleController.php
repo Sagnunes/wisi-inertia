@@ -7,12 +7,15 @@ use App\Http\Requests\Roles\StoreRoleRequest;
 use App\Http\Requests\Roles\UpdateRoleRequest;
 use App\Models\Role;
 use App\Services\RoleService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class RoleController extends Controller
 {
+    use AuthorizesRequests;
+
     public function __construct(private readonly RoleService $service) {}
 
     /**
@@ -20,9 +23,16 @@ class RoleController extends Controller
      */
     public function index(): Response
     {
-        $roles = $this->service->getAllRolesWithPermissions(50);
+        $this->authorize('viewAny', Role::class);
 
-        return Inertia::render('Management/Roles/Index', compact('roles'));
+        $roles = $this->service->getAllRolesWithPermissions();
+
+        return Inertia::render('Management/Roles/Index', [
+            'roles' => $roles,
+            'can' => [
+                'create' => auth()->user()->can('create', Role::class),
+            ],
+        ]);
     }
 
     /**
@@ -30,6 +40,7 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
+        $this->authorize('create', Role::class);
         $dto = RoleDTO::fromRequest($request->validated());
 
         $this->service->createRole($dto);
@@ -59,6 +70,8 @@ class RoleController extends Controller
      */
     public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
     {
+        $this->authorize('update', $role);
+
         $this->service->updateRole($role, RoleDTO::fromRequest($request->validated()));
 
         return to_route('roles.edit', $role);
@@ -69,6 +82,8 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        $this->authorize('delete', $role);
+
         $this->service->deleteRole($role);
 
         return redirect()->back()->with('status', 'Role deleted successfully.');

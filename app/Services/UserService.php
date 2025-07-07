@@ -6,15 +6,12 @@ use App\Contracts\UserRepositoryInterface;
 use App\DTOs\User\UserDTO;
 use App\Models\User;
 use App\Traits\HasPaginationFormatting;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 final readonly class UserService
 {
     use HasPaginationFormatting;
 
-    public function __construct(private UserRepositoryInterface $repository)
-    {
-    }
+    public function __construct(private UserRepositoryInterface $repository) {}
 
     private function toDto(User $user): UserDTO
     {
@@ -29,7 +26,7 @@ final readonly class UserService
     public function getUsers(): array
     {
         return $this->repository->all()
-            ->map(fn(User $user) => $this->toDto($user))
+            ->map(fn (User $user) => $this->toDto($user))
             ->toArray();
     }
 
@@ -52,6 +49,6 @@ final readonly class UserService
             ];
         });
 
-        return $this->formatPagination($paginated, fn($item) => $item);
+        return $this->formatPagination($paginated, fn ($item) => $item);
     }
 }

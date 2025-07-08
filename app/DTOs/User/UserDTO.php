@@ -11,18 +11,15 @@ use Illuminate\Database\Eloquent\Collection;
 final readonly class UserDTO
 {
     public function __construct(
-        public string      $name,
-        public string      $email,
-        public ?int        $id = null,
-        public ?string     $created_at = null,
-        public ?Collection $roles = null,
-        public Status  $status
-    )
-    {
-    }
+        public string $name,
+        public string $email,
+        public ?int $id,
+        public ?string $created_at,
+        public ?Collection $roles,
+        public Status $status
+    ) {}
 
-    public
-    static function fromRequest(array $data): self
+    public static function fromRequest(array $data): self
     {
         return new self(
             name: $data['name'],
@@ -31,8 +28,7 @@ final readonly class UserDTO
         );
     }
 
-    public
-    static function fromModel(User $user): self
+    public static function fromModel(User $user): self
     {
         return new self(
             name: $user->name,
@@ -44,8 +40,7 @@ final readonly class UserDTO
         );
     }
 
-    public
-    function toArray(): array
+    public function toArray(): array
     {
         return [
             'id' => $this->id,

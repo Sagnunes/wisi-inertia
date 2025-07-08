@@ -1,48 +1,17 @@
 <?php
 
-use App\Enums\Permission as PermissionEnum;
 use App\Enums\Role as RoleEnum;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use function Pest\Laravel\seed;
+
 uses(RefreshDatabase::class);
-
-// Test setup for all tests in this file
 beforeEach(function () {
-    // Create the WATCHER role with all permissions
-    $watcherRole = Role::factory()->create([
-        'name' => RoleEnum::WATCHER->getName(),
-        'slug' => strtolower(RoleEnum::WATCHER->getName()),
-    ]);
-
-    // Create permissions for permissions management
-    $permissions = [
-        Permission::factory()->create([
-            'name' => 'View Permissions',
-            'slug' => PermissionEnum::VIEW,
-        ]),
-        Permission::factory()->create([
-            'name' => 'Create Permissions',
-            'slug' => PermissionEnum::CREATE,
-        ]),
-        Permission::factory()->create([
-            'name' => 'Update Permissions',
-            'slug' => PermissionEnum::UPDATE,
-        ]),
-        Permission::factory()->create([
-            'name' => 'Delete Permissions',
-            'slug' => PermissionEnum::DELETE,
-        ]),
-        Permission::factory()->create([
-            'name' => 'Assign Permissions',
-            'slug' => PermissionEnum::ASSIGN,
-        ]),
-    ];
-
-    // Attach permissions to the WATCHER role
-    $watcherRole->permissions()->attach($permissions);
+    seed(DatabaseSeeder::class);
 });
 
 it('allows a user to view the permissions list', function () {
@@ -58,6 +27,20 @@ it('allows a user to view the permissions list', function () {
     foreach ($permissions as $permission) {
         $response->assertSee($permission->name);
     }
+});
+
+it('a user without view permissions cant see the list of permissions', function () {
+    $user = User::factory()->create();
+
+    Permission::factory()->count(3)->create();
+
+    $this->assertFalse($user->hasPermission(\App\Enums\Permission::VIEW));
+
+    $response = $this
+        ->actingAs($user)
+        ->get(route('permissions.index'));
+
+    $response->assertStatus(403);
 });
 
 it('allows a user to create a permission', function () {
@@ -80,6 +63,22 @@ it('allows a user to create a permission', function () {
         'name' => 'Test Permission',
         'slug' => 'test-permission',
     ]);
+});
+
+it('a user without create permissions cant create a permission', function () {
+    $user = User::factory()->create();
+
+    $this->assertFalse($user->hasPermission(\App\Enums\Permission::CREATE));
+    $permissionData = [
+        'name' => 'Test Permission',
+        'slug' => 'test-permission',
+    ];
+
+    $response = $this
+        ->actingAs($user)
+        ->post(route('permissions.store'), $permissionData);
+
+    $response->assertStatus(403);
 });
 
 it('allows a user to update a permission', function () {
@@ -105,6 +104,24 @@ it('allows a user to update a permission', function () {
     ]);
 });
 
+it('a user witout update permission cant update a permission', function () {
+    $user = User::factory()->create();
+    $permission = Permission::factory()->create();
+
+    $this->assertFalse($user->hasPermission(\App\Enums\Permission::UPDATE));
+
+    $updatedData = [
+        'name' => 'Updated Permission Name',
+        'slug' => 'updated-permission-slug',
+    ];
+
+    $response = $this
+        ->actingAs($user)
+        ->patch(route('permissions.update', $permission->id), $updatedData);
+
+    $response->assertStatus(403);
+});
+
 it('allows a user to delete a permission', function () {
     $user = User::factory()->create();
     $user->roles()->attach(Role::where('name', RoleEnum::WATCHER->getName())->first());
@@ -118,6 +135,17 @@ it('allows a user to delete a permission', function () {
     $response->assertSessionHas('status', 'Permission deleted successfully.');
 
     $this->assertDatabaseMissing('permissions', ['id' => $permission->id]);
+});
+
+it('a user without delete permission cant delete a permission', function () {
+    $user = User::factory()->create();
+    $permission = Permission::factory()->create();
+
+    $this->assertFalse($user->hasPermission(\App\Enums\Permission::DELETE));
+    $response = $this
+        ->actingAs($user)
+        ->delete(route('permissions.destroy', $permission->id));
+    $response->assertStatus(403);
 });
 
 it('fails validation with empty name', function () {

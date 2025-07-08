@@ -1,7 +1,18 @@
 <?php
 
 use App\Models\User;
+use Database\Seeders\ObjectTypeSeeder;
+use Database\Seeders\StatusSeeder;
 
+use function Pest\Laravel\seed;
+
+beforeEach(function () {
+    seed(
+        [
+            ObjectTypeSeeder::class,
+            StatusSeeder::class,
+        ]);
+});
 test('profile page is displayed', function () {
     $user = User::factory()->create();
 

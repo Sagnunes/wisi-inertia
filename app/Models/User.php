@@ -67,9 +67,9 @@ class User extends Authenticatable
 
     public function hasPermission(string $permission): bool
     {
-        if (!isset($this->permissionCache[$permission])) {
+        if (! isset($this->permissionCache[$permission])) {
             $this->permissionCache[$permission] = $this->roles()
-                ->whereHas('permissions', fn($q) => $q->where('slug', $permission))
+                ->whereHas('permissions', fn ($q) => $q->where('slug', $permission))
                 ->exists();
         }
 
@@ -90,7 +90,7 @@ class User extends Authenticatable
         return $this->belongsTo(Status::class);
     }
 
-    public function isActive(): bool
+    public function getIsActiveAttribute(): bool
     {
         return $this->status && $this->status->id == \App\Enums\Status::ACTIVE->value;
     }

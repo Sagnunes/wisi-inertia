@@ -1,6 +1,13 @@
 <?php
 
 use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
+
+use function Pest\Laravel\seed;
+
+beforeEach(function () {
+    seed([DatabaseSeeder::class]);
+});
 
 test('confirm password screen can be rendered', function () {
     $user = User::factory()->create();

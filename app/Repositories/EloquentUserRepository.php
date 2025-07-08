@@ -52,6 +52,6 @@ class EloquentUserRepository implements UserRepositoryInterface
     {
         return $this->baseQuery()->with(['roles' => function ($query) {
             $query->select('roles.id', 'roles.name', 'roles.slug');
-        },'status'])->paginate($perPage)->withQueryString();
+        }, 'status'])->paginate($perPage)->withQueryString();
     }
 }

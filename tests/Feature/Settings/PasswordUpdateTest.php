@@ -1,8 +1,15 @@
 <?php
 
 use App\Models\User;
+use Database\Seeders\ObjectTypeSeeder;
+use Database\Seeders\StatusSeeder;
 use Illuminate\Support\Facades\Hash;
 
+use function Pest\Laravel\seed;
+
+beforeEach(function () {
+    seed([ObjectTypeSeeder::class, StatusSeeder::class]);
+});
 test('password can be updated', function () {
     $user = User::factory()->create();
 

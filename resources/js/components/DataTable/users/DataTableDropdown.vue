@@ -39,7 +39,6 @@ const handleAssignRolesUrl = () => {
     router.get(route('user.roles.edit', props.user));
 };
 
-
 const showValidateDialog = ref(false);
 
 function openValidateDialog() {
@@ -84,10 +83,5 @@ function closeValidateDialog() {
         v-model:open="showDeleteDialog"
     />
 
-    <ActivateBlockUserDialog
-        :open="showValidateDialog"
-        :user="user"
-        @update:open="showValidateDialog = $event"
-        @close="closeValidateDialog"
-    />
+    <ActivateBlockUserDialog :open="showValidateDialog" :user="user" @update:open="showValidateDialog = $event" @close="closeValidateDialog" />
 </template>

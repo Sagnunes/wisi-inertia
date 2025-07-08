@@ -23,7 +23,7 @@ class UpdateUserStatusRequest extends FormRequest
     {
         return [
             'user' => ['required', 'exists:users,id'],
-            'status'=>['required', 'exists:statuses,id']
+            'status' => ['required', 'exists:statuses,id'],
         ];
     }
 }

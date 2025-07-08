@@ -1,48 +1,17 @@
 <?php
 
-use App\Enums\Permission as PermissionEnum;
 use App\Enums\Role as RoleEnum;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use function Pest\Laravel\seed;
+
 uses(RefreshDatabase::class);
-
-// Test setup for all tests in this file
 beforeEach(function () {
-    // Create the WATCHER role with all permissions
-    $watcherRole = Role::factory()->create([
-        'name' => RoleEnum::WATCHER->getName(),
-        'slug' => strtolower(RoleEnum::WATCHER->getName()),
-    ]);
-
-    // Create permissions for permissions management
-    $permissions = [
-        Permission::factory()->create([
-            'name' => 'View Permissions',
-            'slug' => PermissionEnum::VIEW,
-        ]),
-        Permission::factory()->create([
-            'name' => 'Create Permissions',
-            'slug' => PermissionEnum::CREATE,
-        ]),
-        Permission::factory()->create([
-            'name' => 'Update Permissions',
-            'slug' => PermissionEnum::UPDATE,
-        ]),
-        Permission::factory()->create([
-            'name' => 'Delete Permissions',
-            'slug' => PermissionEnum::DELETE,
-        ]),
-        Permission::factory()->create([
-            'name' => 'Assign Permissions',
-            'slug' => PermissionEnum::ASSIGN,
-        ]),
-    ];
-
-    // Attach permissions to the WATCHER role
-    $watcherRole->permissions()->attach($permissions);
+    seed(DatabaseSeeder::class);
 });
 
 it('allows a user to view the edit permissions page for a role', function () {

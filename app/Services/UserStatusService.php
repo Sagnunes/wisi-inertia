@@ -3,13 +3,10 @@
 namespace App\Services;
 
 use App\Contracts\UserStatusRepositoryInterface;
-use App\Models\User;
 
 final readonly class UserStatusService
 {
-    public function __construct(private UserStatusRepositoryInterface $repository, private UserService $userService)
-    {
-    }
+    public function __construct(private UserStatusRepositoryInterface $repository, private UserService $userService) {}
 
     public function updateUserStatus(int $userId, int $statusId): bool
     {

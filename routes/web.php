@@ -46,5 +46,5 @@ Route::middleware(['auth', 'verified'])->prefix('administracao')->group(function
 
     Route::post('/asda', \App\Http\Controllers\UserStatusController::class)->name('users.validate');
 });
-require __DIR__ . '/settings.php';
-require __DIR__ . '/auth.php';
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';

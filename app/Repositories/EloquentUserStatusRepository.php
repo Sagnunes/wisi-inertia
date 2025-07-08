@@ -7,9 +7,8 @@ use App\Models\User;
 
 class EloquentUserStatusRepository implements UserStatusRepositoryInterface
 {
-
     public function updateStatus(User $user, int $statusId): bool
     {
-       return $user->update(['status_id' => $statusId]);
+        return $user->update(['status_id' => $statusId]);
     }
 }

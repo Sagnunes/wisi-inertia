@@ -53,11 +53,10 @@ class LoginRequest extends FormRequest
         if (isset($messages[$user->status_id])) {
             RateLimiter::hit($this->throttleKey());
             throw ValidationException::withMessages([
-                'email' => __($messages[$user->status_id])
+                'email' => __($messages[$user->status_id]),
             ]);
         }
     }
-
 
     /**
      * Attempt to authenticate the request's credentials.

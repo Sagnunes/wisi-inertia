@@ -1,47 +1,19 @@
 <?php
 
 use App\Enums\Role as RoleEnum;
-use App\Enums\User as UserEnum;
-use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
+use function Pest\Laravel\seed;
 
 uses(RefreshDatabase::class);
 
-// Test setup for all tests in this file
 beforeEach(function () {
-    // Create the WATCHER role with all permissions
-    $watcherRole = Role::factory()->create([
-        'name' => RoleEnum::WATCHER->getName(),
-        'slug' => strtolower(RoleEnum::WATCHER->getName()),
-    ]);
-
-    // Create permissions for users management
-    $permissions = [
-        Permission::factory()->create([
-            'name' => 'View Users',
-            'slug' => UserEnum::VIEW,
-        ]),
-        Permission::factory()->create([
-            'name' => 'Delete Users',
-            'slug' => UserEnum::DELETE,
-        ]),
-        Permission::factory()->create([
-            'name' => 'Manage Users',
-            'slug' => UserEnum::MANAGE,
-        ]),
-        Permission::factory()->create([
-            'name' => 'Assign Roles',
-            'slug' => RoleEnum::ASSIGN,
-        ]),
-    ];
-
-    // Attach permissions to the WATCHER role
-    $watcherRole->permissions()->attach($permissions);
+    seed(DatabaseSeeder::class);
 });
 
-// UserController Tests
 it('allows a user to view the users list', function () {
     $user = User::factory()->create();
     $user->roles()->attach(Role::where('name', RoleEnum::WATCHER->getName())->first());

@@ -8,9 +8,7 @@ use Illuminate\Http\Request;
 
 class UserStatusController extends Controller
 {
-    public function __construct(private readonly UserStatusService $service)
-    {
-    }
+    public function __construct(private readonly UserStatusService $service) {}
 
     /**
      * Handle the incoming request.
@@ -18,7 +16,7 @@ class UserStatusController extends Controller
     public function __invoke(UpdateUserStatusRequest $request)
     {
         $validated = $request->validated();
-        $this->service->updateUserStatus($validated['user'],$validated['status']);
+        $this->service->updateUserStatus($validated['user'], $validated['status']);
 
         return redirect()->back();
     }

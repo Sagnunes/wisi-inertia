@@ -45,7 +45,6 @@ const handleAssignPermissionsUrl = () => {
 </script>
 
 <template>
-
     <DropdownMenu>
         <DropdownMenuTrigger as-child>
             <Button variant="ghost" class="h-8 w-8 p-0">

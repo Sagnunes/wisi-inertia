@@ -1,5 +1,6 @@
 <!-- DataTableDropdown.vue -->
 <script setup lang="ts">
+import ActivateBlockUserDialog from '@/components/ActivateBlockUserDialog.vue';
 import DeleteDialog from '@/components/DeleteDialog.vue';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,7 +23,6 @@ const props = defineProps({
 });
 
 const showDeleteDialog = ref(false);
-
 function openDeleteDialog() {
     showDeleteDialog.value = true;
 }
@@ -38,6 +38,15 @@ function copyId(id: string) {
 const handleAssignRolesUrl = () => {
     router.get(route('user.roles.edit', props.user));
 };
+
+const showValidateDialog = ref(false);
+
+function openValidateDialog() {
+    showValidateDialog.value = true;
+}
+function closeValidateDialog() {
+    showValidateDialog.value = false;
+}
 </script>
 
 <template>
@@ -51,6 +60,7 @@ const handleAssignRolesUrl = () => {
         <DropdownMenuContent align="end">
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
             <DropdownMenuItem @click="copyId(user.id)">Copiar ID</DropdownMenuItem>
+            <DropdownMenuItem @click="openValidateDialog" v-if="user.can.validate">Validar</DropdownMenuItem>
             <template v-if="user.can.delete">
                 <DropdownMenuSeparator />
                 <DropdownMenuItem @click="openDeleteDialog">Apagar</DropdownMenuItem>
@@ -72,4 +82,6 @@ const handleAssignRolesUrl = () => {
         @deleted="closeDeleteDialog"
         v-model:open="showDeleteDialog"
     />
+
+    <ActivateBlockUserDialog :open="showValidateDialog" :user="user" @update:open="showValidateDialog = $event" @close="closeValidateDialog" />
 </template>

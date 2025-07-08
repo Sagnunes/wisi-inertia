@@ -14,7 +14,7 @@ class EloquentUserRepository implements UserRepositoryInterface
     /**
      * The columns to select from the permission table
      */
-    private const USER_LIST_COLUMNS = ['id', 'name', 'email', 'created_at', 'updated_at'];
+    private const USER_LIST_COLUMNS = ['id', 'name', 'email', 'created_at', 'updated_at', 'status_id'];
 
     public function __construct(User $model)
     {
@@ -52,6 +52,6 @@ class EloquentUserRepository implements UserRepositoryInterface
     {
         return $this->baseQuery()->with(['roles' => function ($query) {
             $query->select('roles.id', 'roles.name', 'roles.slug');
-        }])->paginate($perPage)->withQueryString();
+        }, 'status'])->paginate($perPage)->withQueryString();
     }
 }

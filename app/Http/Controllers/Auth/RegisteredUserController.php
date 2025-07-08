@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendITNewUserNotification;
+use App\Jobs\SendWelcomeEmailToUser;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
@@ -44,8 +45,9 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        SendWelcomeEmailToUser::dispatch($user);
+        SendITNewUserNotification::dispatch($user);
 
-        return to_route('dashboard');
+        return back()->with('status', 'Registration successful. Please check your email for verification.');
     }
 }

@@ -45,6 +45,7 @@ final readonly class UserService
                 'can' => [
                     'delete' => auth()->user()?->can('delete', $user) ?? false,
                     'assign' => auth()->user()?->can('assign', \App\Models\Role::class) ?? false,
+                    'validate' => auth()->user()?->can('validate', $user) ?? false,
                 ],
             ];
         });

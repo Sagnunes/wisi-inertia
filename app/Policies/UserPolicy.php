@@ -41,4 +41,9 @@ class UserPolicy
     {
         return $user->hasPermission(\App\Enums\Role::ASSIGN);
     }
+
+    public function validate(User $user): bool
+    {
+        return $user->hasPermission(\App\Enums\User::validate);
+    }
 }

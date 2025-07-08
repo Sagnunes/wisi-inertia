@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace App\DTOs\User;
 
+use App\Models\Status;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 final readonly class UserDTO
 {
     public function __construct(
         public string $name,
         public string $email,
-        public ?int $id = null,
-        public ?string $created_at = null,
-        public ?string $updated_at = null,
-        public ?\Illuminate\Database\Eloquent\Collection $roles = null,
+        public ?int $id,
+        public ?string $created_at,
+        public ?Collection $roles,
+        public Status $status
     ) {}
 
     public static function fromRequest(array $data): self
@@ -22,6 +24,7 @@ final readonly class UserDTO
         return new self(
             name: $data['name'],
             email: $data['email'],
+            status: $data['status'] ?? null,
         );
     }
 
@@ -32,7 +35,8 @@ final readonly class UserDTO
             email: $user->email,
             id: $user->id,
             created_at: $user->created_at->format('Y-m-d'),
-            roles: $user->roles
+            roles: $user->roles,
+            status: $user->status,
         );
     }
 
@@ -43,7 +47,7 @@ final readonly class UserDTO
             'name' => $this->name,
             'email' => $this->email,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'status' => $this->status,
             'roles' => collect($this->roles ?? [])->map(function ($role) {
                 return [
                     'id' => $role->id,

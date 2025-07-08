@@ -9,6 +9,7 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    status: Status;
     roles?: Role[];
 }
 
@@ -30,6 +31,15 @@ export interface Permission {
     id: number;
     name: string;
     slug: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Status {
+    id: number;
+    name: string;
+    slug: string;
+    description: string;
     created_at: string;
     updated_at: string;
 }

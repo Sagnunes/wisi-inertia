@@ -19,7 +19,7 @@ const props = defineProps({
     resourceName: { type: String, required: true },
     currentPage: { type: Number, default: 1 },
     identifierKey: { type: String, default: 'id' },
-    displayKey: { type: String, default: 'name' }, // NEW: allow configuring display field
+    displayKey: { type: String, default: 'name' },
 });
 
 const emit = defineEmits(['deleted']);

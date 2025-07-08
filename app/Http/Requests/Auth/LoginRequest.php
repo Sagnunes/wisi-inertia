@@ -32,6 +32,32 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    /*
+     * Validate the user's status.
+     *
+     * @param User $user
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     *
+     '
+     */
+
+    private function validateUserStatus(\App\Models\User $user): void
+    {
+        $messages = [
+            \App\Enums\Status::PENDING->value => 'Conta não ativa. Contacte o  administrador.',
+            \App\Enums\Status::BLOCKED->value => 'Conta suspensa. Contacte o administrador.',
+        ];
+
+        if (isset($messages[$user->status_id])) {
+            RateLimiter::hit($this->throttleKey());
+            throw ValidationException::withMessages([
+                'email' => __($messages[$user->status_id]),
+            ]);
+        }
+    }
+
     /**
      * Attempt to authenticate the request's credentials.
      *
@@ -40,6 +66,12 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
+
+        $user = \App\Models\User::where('email', $this->email)->first();
+
+        if ($user) {
+            $this->validateUserStatus($user);
+        }
 
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());

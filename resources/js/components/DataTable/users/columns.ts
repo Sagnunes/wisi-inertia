@@ -31,6 +31,12 @@ export const userColumns: ColumnDef<User>[] = [
         cell: ({ row }) => h('span', { class: 'block' }, row.original.email),
     },
     {
+        id: 'statusName',
+        header: () => h('span', { class: 'block' }, 'Estado'),
+        accessorFn: (row) => row.status?.name,
+        cell: ({ row }) => h(Badge, { class: 'text-start' }, row.getValue('statusName')),
+    },
+    {
         accessorKey: 'permissions',
         header: () => h('span', { class: 'block' }, 'Perfis Atribuidos'),
         cell: ({ row }) =>
@@ -38,7 +44,6 @@ export const userColumns: ColumnDef<User>[] = [
                 'div',
                 {
                     class: 'flex flex-wrap gap-2 justify-start items-center',
-                    style: { width: '700px' },
                 },
                 row.original.roles?.map((role: Role) =>
                     h(

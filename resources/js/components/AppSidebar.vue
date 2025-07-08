@@ -64,6 +64,10 @@ const navManagementItems: NavItem[] = [
                 href: '/administracao/utilizadores',
                 permissions: [Permission.VIEW_USERS],
             },
+            {
+                title: 'Status',
+                href: '/administracao/estados',
+            },
         ],
     },
 ];

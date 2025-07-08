@@ -39,6 +39,12 @@ Route::middleware(['auth', 'verified'])->prefix('administracao')->group(function
         Route::get('utilizadores/{user}/perfil', [UserRoleController::class, 'edit'])->name('user.roles.edit');
         Route::patch('utlizadores/{user}/perfil', [UserRoleController::class, 'update'])->name('user.roles.update');
     });
+
+    Route::middleware('can:viewAny,App\Models\Status')->group(function () {
+        Route::resource('estados', \App\Http\Controllers\StatusController::class)->names('statuses')->parameter('estados', 'status')->except('create');
+    });
+
+    Route::post('/asda', \App\Http\Controllers\UserStatusController::class)->name('users.validate');
 });
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';

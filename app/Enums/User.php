@@ -9,4 +9,6 @@ enum User: string
     const VIEW = 'view-users';
 
     const DELETE = 'delete-users';
+
+    const validate = 'validate-users';
 }

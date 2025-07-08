@@ -20,8 +20,8 @@ class PermissionSeeder extends Seeder
         foreach ($resources as $resource) {
             foreach ($actions as $action) {
                 $permissions[] = [
-                    'name' => ucfirst($action) . ' ' . ucfirst($resource) . 's',
-                    'slug' => $action . '-' . $resource . 's',
+                    'name' => ucfirst($action).' '.ucfirst($resource).'s',
+                    'slug' => $action.'-'.$resource.'s',
                 ];
             }
         }

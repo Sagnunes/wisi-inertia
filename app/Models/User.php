@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -66,9 +67,9 @@ class User extends Authenticatable
 
     public function hasPermission(string $permission): bool
     {
-        if (! isset($this->permissionCache[$permission])) {
+        if (!isset($this->permissionCache[$permission])) {
             $this->permissionCache[$permission] = $this->roles()
-                ->whereHas('permissions', fn ($q) => $q->where('slug', $permission))
+                ->whereHas('permissions', fn($q) => $q->where('slug', $permission))
                 ->exists();
         }
 
@@ -82,5 +83,15 @@ class User extends Authenticatable
                 $query->whereIn('slug', $permissions);
             })
             ->exists();
+    }
+
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(Status::class);
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status && $this->status->id == \App\Enums\Status::ACTIVE->value;
     }
 }

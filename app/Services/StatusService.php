@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Contracts\StatusRepositoryInterface;
-use App\DTOs\Status\StatusDto;
+use App\DTOs\Status\StatusDTO;
 use App\Models\Status;
 use App\Traits\HasPaginationFormatting;
 

@@ -39,6 +39,7 @@ it('allows a user to view the status list', function () {
         ->get(route('statuses.index'));
 
     $response->assertStatus(200);
+
     foreach ($statuses as $status) {
         $response->assertSee($status->name);
     }

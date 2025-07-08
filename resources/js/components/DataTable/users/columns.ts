@@ -17,7 +17,7 @@ export const userColumns: ColumnDef<User>[] = [
                     onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
                     class: 'min-w-[50px] max-w-[100px]',
                 },
-                () => ['Name', h(ArrowUpDown, { class: 'ml-2 h-4 w-4 cursor-pointer' })],
+                () => ['Nome', h(ArrowUpDown, { class: 'ml-2 h-4 w-4 cursor-pointer' })],
             );
         },
         cell: ({ row }) => h('div', { class: 'text-start' }, row.getValue('name')),

@@ -4,13 +4,13 @@ namespace App\Enums;
 
 enum Permission: string
 {
-    const VIEW = 'view-permissions';
+    const VIEW = 'ver-permissoes';
 
-    const CREATE = 'create-permissions';
+    const CREATE = 'criar-permissoes';
 
-    const UPDATE = 'update-permissions';
+    const UPDATE = 'atualizar-permissoes';
 
-    const DELETE = 'delete-permissions';
+    const DELETE = 'apagar-permissoes';
 
-    const ASSIGN = 'assign-permissions';
+    const ASSIGN = 'atribuir-permissao';
 }

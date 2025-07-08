@@ -27,7 +27,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const fields = [{ name: 'name', placeholder: 'Name', required: true }];
+const fields = [{ name: 'name', placeholder: 'Nome', required: true }];
 
 const goToPage = (page: number) => {
     router.get(
@@ -54,7 +54,7 @@ const goToPage = (page: number) => {
                 <DataTable :columns="permissionColumns" :data="permissions.data">
                     <template #create v-if="can.create">
                         <CreateDialog
-                            resource-name="permission"
+                            resource-name="permissão"
                             route-name="permissions.store"
                             :fields="fields"
                             :initial-form-data="{ name: '', description: '' }"

@@ -50,10 +50,10 @@ const handleEditUrl = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem @click="copyId(status.id)">Copy ID</DropdownMenuItem>
+            <DropdownMenuItem @click="copyId(status.id)">Copiar ID</DropdownMenuItem>
             <DropdownMenuSeparator v-if="status.can.update || status.can.delete" />
-            <DropdownMenuItem @click="handleEditUrl" v-if="status.can.update">Edit</DropdownMenuItem>
-            <DropdownMenuItem @click="openDeleteDialog" v-if="status.can.delete">Delete</DropdownMenuItem>
+            <DropdownMenuItem @click="handleEditUrl" v-if="status.can.update">Editar</DropdownMenuItem>
+            <DropdownMenuItem @click="openDeleteDialog" v-if="status.can.delete">Apagar</DropdownMenuItem>
         </DropdownMenuContent>
     </DropdownMenu>
 
@@ -61,7 +61,7 @@ const handleEditUrl = () => {
         v-if="showDeleteDialog"
         :resource="status"
         route-name="statuses.destroy"
-        resource-name="status"
+        resource-name="estados"
         :current-page="1"
         identifier-key="id"
         @deleted="closeDeleteDialog"

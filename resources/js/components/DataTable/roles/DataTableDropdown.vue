@@ -70,7 +70,7 @@ const handleAssignPermissionsUrl = () => {
         v-if="showDeleteDialog"
         :resource="role"
         route-name="roles.destroy"
-        resource-name="role"
+        resource-name="perfil"
         :current-page="1"
         identifier-key="id"
         @deleted="closeDeleteDialog"

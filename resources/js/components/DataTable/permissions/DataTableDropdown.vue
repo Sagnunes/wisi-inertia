@@ -61,7 +61,7 @@ const handleEditUrl = () => {
         v-if="showDeleteDialog"
         :resource="permission"
         route-name="permissions.destroy"
-        resource-name="permission"
+        resource-name="permissão"
         :current-page="1"
         identifier-key="id"
         @deleted="closeDeleteDialog"

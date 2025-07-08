@@ -78,14 +78,14 @@ const submit = () => {
     <Dialog :open="showCreateDialog" @update:open="showCreateDialog = $event">
         <DialogTrigger class="space-y-3">
             <slot name="trigger">
-                <Button variant="link" class="hover:cursor-pointer"> New {{ resourceName }}</Button>
+                <Button variant="link" class="hover:cursor-pointer"> Criar {{ resourceName }}</Button>
             </slot>
         </DialogTrigger>
         <DialogContent>
             <form @submit.prevent="submit" class="space-y-6">
                 <DialogHeader class="space-y-3">
-                    <DialogTitle>Create a new {{ resourceName }}</DialogTitle>
-                    <DialogDescription>Fill the required inputs</DialogDescription>
+                    <DialogTitle>Criar novo {{ resourceName }}</DialogTitle>
+                    <DialogDescription>Preencher os campos obrigatórios</DialogDescription>
                 </DialogHeader>
 
                 <div v-for="field in fields" :key="field.name" class="grid gap-2">

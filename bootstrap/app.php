@@ -16,11 +16,11 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
-        $middleware->append(EnsureUserIsApproved::class);
         $middleware->web(append: [
             HandleAppearance::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
+            EnsureUserIsApproved::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

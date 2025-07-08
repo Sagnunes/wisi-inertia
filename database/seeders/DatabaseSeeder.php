@@ -22,12 +22,5 @@ class DatabaseSeeder extends Seeder
             'email' => 'watcher@madeira.gov.pt',
         ]);
         $watcher->roles()->attach(Role::WATCHER->value);
-
-        $director = User::factory()->create([
-            'name' => 'The Director',
-            'email' => 'director@madeira.gov.pt',
-        ]);
-
-        $director->roles()->attach(Role::DIRECTOR->value);
     }
 }

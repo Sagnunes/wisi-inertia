@@ -15,7 +15,7 @@ export const permissionColumns: ColumnDef<Permission>[] = [
                     variant: 'ghost',
                     onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
                 },
-                () => ['Name', h(ArrowUpDown, { class: 'ml-2 h-4 w-4 cursor-pointer' })],
+                () => ['Nome', h(ArrowUpDown, { class: 'ml-2 h-4 w-4 cursor-pointer' })],
             );
         },
         cell: ({ row }) => h('div', row.getValue('name')),
@@ -35,7 +35,7 @@ export const permissionColumns: ColumnDef<Permission>[] = [
     },
     {
         id: 'actions',
-        header: 'Actions',
+        header: '',
         enableHiding: false,
         cell: ({ row }) => h(DataTableDropdown, { permission: row.original }),
     },

@@ -19,7 +19,7 @@ class EnsureUserIsApproved
         $user = Auth::user();
 
         if ($user && ! $user->isActive) {
-            return redirect()->route('register')->with('status', 'Your account is not approved yet.');
+            abort(403, 'A sua conta ainda não foi aprovada.');
         }
 
         return $next($request);

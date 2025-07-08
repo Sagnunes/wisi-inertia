@@ -8,11 +8,11 @@ enum Status: int
     case ACTIVE = 2;
     case BLOCKED = 3;
 
-    const VIEW = 'view-status';
+    const VIEW = 'ver-estados';
 
-    const CREATE = 'create-status';
+    const CREATE = 'criar-estados';
 
-    const UPDATE = 'update-status';
+    const UPDATE = 'atualizar-estados';
 
-    const DELETE = 'delete-status';
+    const DELETE = 'apagar-estados';
 }

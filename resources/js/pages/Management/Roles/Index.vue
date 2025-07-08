@@ -28,8 +28,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const fields = [
-    { name: 'name', placeholder: 'Name', required: true },
-    { name: 'description', placeholder: 'Description' },
+    { name: 'name', placeholder: 'Nome', required: true },
+    { name: 'description', placeholder: 'Descrição' },
 ];
 
 const goToPage = (page: number) => {
@@ -57,7 +57,7 @@ const goToPage = (page: number) => {
                 <DataTable :columns="roleColumns" :data="roles.data">
                     <template #create v-if="can.create">
                         <CreateDialog
-                            resource-name="role"
+                            resource-name="perfil"
                             route-name="roles.store"
                             :fields="fields"
                             :initial-form-data="{ name: '', description: '' }"

@@ -15,7 +15,7 @@ export const statusColumns: ColumnDef<Status>[] = [
                     variant: 'ghost',
                     onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
                 },
-                () => ['Name', h(ArrowUpDown, { class: 'ml-2 h-4 w-4 cursor-pointer' })],
+                () => ['Nome', h(ArrowUpDown, { class: 'ml-2 h-4 w-4 cursor-pointer' })],
             );
         },
         cell: ({ row }) => h('div', row.getValue('name')),
@@ -35,7 +35,7 @@ export const statusColumns: ColumnDef<Status>[] = [
     },
     {
         id: 'actions',
-        header: 'Actions',
+        header: '',
         enableHiding: false,
         cell: ({ row }) => h(DataTableDropdown, { status: row.original }),
     },

@@ -47,7 +47,6 @@ const deleteResource = () => {
     });
 };
 
-// Computed for display
 const displayValue = computed(() => props.resource[props.displayKey] || props.resource.title || '');
 </script>
 
@@ -61,20 +60,18 @@ const displayValue = computed(() => props.resource[props.displayKey] || props.re
         <DialogContent>
             <form @submit.prevent="deleteResource">
                 <DialogHeader class="space-y-3">
-                    <DialogTitle> Are you sure you want to delete "{{ displayValue }}"? </DialogTitle>
+                    <DialogTitle> Tem a certeza que deseja apagar o "{{ displayValue }}"? </DialogTitle>
                     <DialogDescription>
-                        <slot name="description">
-                            Once the {{ resourceName }} is deleted, all of its resources and data will also be permanently deleted.
-                        </slot>
+                        <slot name="description"> Uma vez que o {{ resourceName }} seja apagado já não é possivel recuperar. </slot>
                     </DialogDescription>
                 </DialogHeader>
-                <DialogFooter>
+                <DialogFooter class="mt-4">
                     <DialogClose as-child>
-                        <Button variant="secondary" @click="closeModal" aria-label="Cancel delete"> Cancel </Button>
+                        <Button variant="secondary" @click="closeModal" aria-label="Cancel delete"> Cancelar </Button>
                     </DialogClose>
                     <Button variant="destructive" :disabled="form.processing" aria-label="Confirm delete">
                         <span v-if="form.processing" class="mr-2 animate-spin">⏳</span>
-                        Delete
+                        Apagar
                     </Button>
                 </DialogFooter>
                 <div v-if="form.hasErrors" class="mt-2 text-red-500">

@@ -44,7 +44,7 @@ Route::middleware(['auth', 'verified'])->prefix('administracao')->group(function
         Route::resource('estados', \App\Http\Controllers\StatusController::class)->names('statuses')->parameter('estados', 'status')->except('create');
     });
 
-    Route::post('/asda', \App\Http\Controllers\UserStatusController::class)->name('users.validate');
+    Route::post('/users-validate', \App\Http\Controllers\UserStatusController::class)->name('users.validate');
 });
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

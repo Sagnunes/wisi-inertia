@@ -9,17 +9,6 @@ import { type BreadcrumbItem, Permission, Role } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { computed, PropType, ref } from 'vue';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Perfis',
-        href: '/administracao/perfis',
-    },
-    {
-        title: 'Atribuir Permissões',
-        href: '/dashboard',
-    },
-];
-
 const props = defineProps({
     permissions: {
         type: Array as PropType<Permission[]>,
@@ -31,6 +20,17 @@ const props = defineProps({
     },
 });
 
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Perfis',
+        href: '/administracao/perfis',
+    },
+];
+
+breadcrumbs.push({
+    title: `Atribuir Permissões - ${props.role?.name}`,
+    href: '/dashboard',
+});
 const form = useForm({
     permissions: [],
 });
@@ -39,7 +39,6 @@ const modelValue = ref<Permission[]>(props.role.permissions ?? []);
 const open = ref(false);
 const searchTerm = ref('');
 
-// Filter permissions: exclude already-selected, filter by name
 const filteredPermissions = computed(() => {
     return props.permissions
         .filter((perm) => !modelValue.value.some((item) => item.id === perm.id))
@@ -61,11 +60,10 @@ const submit = () => {
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex flex-col space-y-6 px-4 py-6">
             <div class="flex flex-row items-end justify-between gap-4">
-                <HeadingSmall title="Permissões" description="Gerir as permissões do sistema" />
+                <HeadingSmall title="Permissões" description="Atribuindo permissões ao perfil" />
             </div>
             <div class="flex h-full flex-1 flex-col rounded-xl p-6">
                 <form @submit.prevent="submit" class="mx-auto flex w-full max-w-2xl flex-col gap-6">
-                    <!-- Combobox always on top -->
                     <Combobox v-model="modelValue" v-model:open="open" :ignore-filter="true">
                         <ComboboxAnchor as-child>
                             <TagsInput v-model="modelValue" class="w-full gap-2 px-2" :display-value="(item) => item.slug">
@@ -86,7 +84,7 @@ const submit = () => {
                                 </ComboboxInput>
                             </TagsInput>
                             <ComboboxList class="w-full">
-                                <ComboboxEmpty>No permissions found</ComboboxEmpty>
+                                <ComboboxEmpty>Nenhuma permissão encontrada.</ComboboxEmpty>
                                 <ComboboxGroup>
                                     <ComboboxItem
                                         v-for="perm in filteredPermissions"
@@ -109,7 +107,6 @@ const submit = () => {
                         </ComboboxAnchor>
                     </Combobox>
 
-                    <!-- Error message and submit button below -->
                     <InputError class="mt-2" :message="form.errors.permissions" />
                     <Button :disabled="form.processing">Guardar</Button>
 

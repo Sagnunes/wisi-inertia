@@ -92,6 +92,6 @@ class User extends Authenticatable
 
     public function getIsActiveAttribute(): bool
     {
-        return $this->status && $this->status->id == \App\Enums\Status::ACTIVE->value;
+        return $this->status && $this->status_id === \App\Enums\Status::ACTIVE->value;
     }
 }

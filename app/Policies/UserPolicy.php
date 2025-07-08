@@ -32,11 +32,6 @@ class UserPolicy
         return $currentUser->hasPermission(\App\Enums\User::DELETE) && $currentUser->id !== $targetUser->id;
     }
 
-    public function manage(User $user): bool
-    {
-        return $user->hasPermission(\App\Enums\User::MANAGE);
-    }
-
     public function assign(User $user): bool
     {
         return $user->hasPermission(\App\Enums\Role::ASSIGN);
@@ -44,6 +39,6 @@ class UserPolicy
 
     public function validate(User $user): bool
     {
-        return $user->hasPermission(\App\Enums\User::validate);
+        return $user->hasPermission(\App\Enums\User::VALIDATE);
     }
 }

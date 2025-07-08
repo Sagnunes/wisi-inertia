@@ -29,7 +29,7 @@ class ITNotificationUserRegister extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'IT Notification User Register',
+            subject: 'WISI - Novo Utilizador Registado',
         );
     }
 

@@ -8,15 +8,15 @@ enum Role: int
     case DIRECTOR = 2;
     case COLLECTOR = 3;
 
-    const VIEW = 'view-roles';
+    const VIEW = 'ver-perfis';
 
-    const CREATE = 'create-roles';
+    const CREATE = 'criar-perfis';
 
-    const UPDATE = 'update-roles';
+    const UPDATE = 'atualizar-perfis';
 
-    const DELETE = 'delete-roles';
+    const DELETE = 'apagar-perfis';
 
-    const ASSIGN = 'assign-roles';
+    const ASSIGN = 'atribuir-perfil';
 
     public function getName(): string
     {

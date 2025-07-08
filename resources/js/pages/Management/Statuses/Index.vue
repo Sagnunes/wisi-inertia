@@ -57,7 +57,7 @@ const goToPage = (page: number) => {
                 <DataTable :columns="statusColumns" :data="statuses.data">
                     <template #create v-if="can.create">
                         <CreateDialog
-                            resource-name="statuses"
+                            resource-name="estados"
                             route-name="statuses.store"
                             :fields="fields"
                             :initial-form-data="{ name: '', description: '' }"

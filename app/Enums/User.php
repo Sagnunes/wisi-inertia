@@ -4,11 +4,9 @@ namespace App\Enums;
 
 enum User: string
 {
-    const MANAGE = 'manage-users';
+    const VIEW = 'ver-utilizadores';
 
-    const VIEW = 'view-users';
+    const DELETE = 'apagar-utilizadores';
 
-    const DELETE = 'delete-users';
-
-    const validate = 'validate-users';
+    const VALIDATE = 'validate-users';
 }
